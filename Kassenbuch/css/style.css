@@ -1,0 +1,64 @@
+body {
+    font-family:        Verdana, Helvetia, Arial, sans-serif;
+    font-size:          small;
+    width:              800px;
+    border:             thin black solid;
+    padding:            20px;
+    margin-left:        auto;
+    margin-right:       auto;
+}
+
+h1 {
+    color:      blue;
+    font-size:  150%;
+}
+
+h2 {
+    color:      blue;
+    font-size:  130%;
+}
+
+nav {
+    padding:    3px;
+    border:     thin solid #cccccc;
+}
+
+#buchfeld {
+    border:     thin solid #cccccc;
+    padding:    5px;
+}
+
+#details {
+    margin-top:     20px;
+    padding:    30px;
+    border:     thin solid #cccccc;
+}
+
+button {
+    background-color:   #cccccc;
+}
+
+table {
+    border-collapse:    collapse;
+}
+
+th, td {
+    border:     thin solid black;
+    padding:    3px;
+}
+
+th {
+    border:     2px solid black;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.centerAlign {
+    text-align: center;
+}
+
+table td:nth-child(even), table th:nth-child(even) {
+    background-color:   #dddddd;
+}

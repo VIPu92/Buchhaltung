@@ -1,0 +1,52 @@
+<!doctype html>
+    <html ng-app="kassenbuchApp">
+        <head>
+            <meta charset="utf-8">
+            <title>Kassenbuch</title>
+            <link rel="stylesheet" type="text/css" href="css/style.css">
+            
+            <script src="angular/angular.js"></script>
+            <script src="javascript/buchhaltung.js"></script>
+            <!--<script src="javascript/app.js"></script>-->
+            <script src="javascript/controllers.js"></script>
+        </head>
+        <body ng-controller="kassenbuchCtrl">
+            <h1>Kassenbuch</h1>
+            
+            <section id="buchung">
+                <h2>Buchung</h2>
+                <p id="buchfeld">
+                    Datum: <input type="date" name="datum">
+                    Belegnr.: <input type="number" name="belegnr">
+                    Buchungstext: <input type="text" name="buchTxt"><br>
+                    Konto Soll: <input type="text" name="kontoSoll">
+                    Konto Haben: <input type="text" name="kontoHab">
+                    Betrag CHF: <input type="text" name="betrag">
+                    <button>Speichern</button>
+                </p>
+            </section>
+            <section id="tab">
+                <h2>Journal</h2>
+                <table>
+                    <tr>
+                        <th>Buchungsnr</th>
+                        <th>Datum</th>
+                        <th>Belegnr</th>
+                        <th>Buchungstext</th>
+                        <th>Einnahmen</th>
+                        <th>Ausgaben</th>
+                        <th>Saldo</th>
+                    </tr>
+                    <tr ng-repeat="b in journal">
+                        <td class="centerAlign">{{b.nr}}</td>
+                        <td>{{b.datum}}</td>
+                        <td class="centerAlign">{{b.belegnr}}</td>
+                        <td>{{b.buchungstxt}}</td>
+                        <td class="rightAlign">{{b.ein}}</td>
+                        <td class="rightAlign">{{b.aus}}</td>
+                        <td class="rightAlign">{{kasse.saldo}}</td>
+                    </tr>
+                </table>
+            </section>
+        </body>
+    </html>

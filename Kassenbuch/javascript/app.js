@@ -1,0 +1,1 @@
+var kassenbuchApp = angular.module('kassenbuchApp', [])
