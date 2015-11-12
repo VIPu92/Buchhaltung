@@ -19,8 +19,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope) {
         
         $scope.journal.push(b)
         
-        $scope.kasse.saldo += $scope.eingEinnahme //muss explizit als zahl deklariert werden, da als text eingelesen wird
-        $scope.kasse.saldo -= $scope.eingAusgabe
+        $scope.kasse.saldo += parseFloat($scope.eingEinnahme) //muss explizit als zahl deklariert werden, da als text eingelesen wird
+        $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
         
         saldoHist.push($scope.kasse.saldo)
         
