@@ -3,16 +3,42 @@ var kassenbuchApp = angular.module('kassenbuchApp', []);
 kassenbuchApp.controller('kassenbuchCtrl', function ($scope) {
     
     $scope.journal = [ 
-        new Buchung(1, '1.1.15', 1, "Eroeffnung", 1000, 0),
-        new Buchung(2, '2.1.15', 2, "starbucks", 0, 3.50),
-        new Buchung(3, '3.1.15', 3, "neues natel", 0, 689),
-        new Buchung(4, '5.1.15', 4, "Verkauf altes natel", 100, 0)
+        new Buchung(0, '1.1.15', 1, "Eroeffnung", 1000, 0)
     ];
     
-    $scope.kasse = new Konto('Kasse', 0)
-    $scope.kasse.saldo += $scope.journal[0].ein
-    $scope.kasse.saldo -= $scope.journal[1].aus
-    $scope.kasse.saldo -= $scope.journal[2].aus
-    $scope.kasse.saldo += $scope.journal[3].ein
+    
+    var autoBuchungsnr = 0
+    $scope.kasse = new Konto('Kasse', 1000)
+    var saldoHist = [1000] //array das die saldo history verfolgt, gebastelte lösung für die saldo anzeige
+    reset()
+    
+    $scope.speichern = function(){
+        
+        autoBuchungsnr++
+        var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingEinnahme, $scope.eingAusgabe)
+        
+        $scope.journal.push(b)
+        
+        $scope.kasse.saldo += $scope.eingEinnahme //muss explizit als zahl deklariert werden, da als text eingelesen wird
+        $scope.kasse.saldo -= $scope.eingAusgabe
+        
+        saldoHist.push($scope.kasse.saldo)
+        
+        reset()
+    };
+    
+    $scope.getSaldo = function(aktBuchung){
+        
+        return saldoHist[aktBuchung.nr]
+    };
+    
+    
+    function reset(){
+        $scope.eingDatum = "tt.mm.jjjj"
+        $scope.eingBelegnr = ""
+        $scope.eingBuchungstxt = ""
+        $scope.eingEinnahme = 0
+        $scope.eingAusgabe = 0
+    }
     
 });

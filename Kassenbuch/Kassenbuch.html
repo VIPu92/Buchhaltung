@@ -16,13 +16,12 @@
             <section id="buchung">
                 <h2>Buchung</h2>
                 <p id="buchfeld">
-                    Datum: <input type="date" name="datum">
-                    Belegnr.: <input type="number" name="belegnr">
-                    Buchungstext: <input type="text" name="buchTxt"><br>
-                    Konto Soll: <input type="text" name="kontoSoll">
-                    Konto Haben: <input type="text" name="kontoHab">
-                    Betrag CHF: <input type="text" name="betrag">
-                    <button>Speichern</button>
+                    Datum: <input type="text" ng-model="eingDatum">
+                    Belegnr.: <input type="number" ng-model="eingBelegnr">
+                    Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
+                    Einnahme CHF: <input type="text" ng-model="eingEinnahme">
+                    Ausgabe CHF: <input type="text" ng-model="eingAusgabe">
+                    <button ng-click="speichern()">Speichern</button>
                 </p>
             </section>
             <section id="tab">
@@ -44,7 +43,7 @@
                         <td>{{b.buchungstxt}}</td>
                         <td class="rightAlign">{{b.ein}}</td>
                         <td class="rightAlign">{{b.aus}}</td>
-                        <td class="rightAlign">{{kasse.saldo}}</td>
+                        <td class="rightAlign">{{getSaldo(b)}}</td>
                     </tr>
                 </table>
             </section>
