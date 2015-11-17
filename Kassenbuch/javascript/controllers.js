@@ -1,15 +1,14 @@
-var kassenbuchApp = angular.module('kassenbuchApp', []);
+var kassenbuchApp = angular.module('kassenbuchApp', ['ngStorage']);
 
-kassenbuchApp.controller('kassenbuchCtrl', function ($scope) {
+kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     
-    $scope.journal = [ 
-        new Buchung(0, '1.1.15', 1, "Eroeffnung", 1000, 0)
-    ];
+    $scope.storage = $localStorage.$default( {journal: []})
     
+    $scope.journal = init()
     
     var autoBuchungsnr = 0
-    $scope.kasse = new Konto('Kasse', 1000)
-    var saldoHist = [1000] //array das die saldo history verfolgt, gebastelte lösung für die saldo anzeige
+    $scope.kasse = new Konto('Kasse', 0)
+    var saldoHist = [0] //array das die saldo history verfolgt, gebastelte lösung für die saldo anzeige
     reset()
     
     $scope.speichern = function(){
@@ -23,6 +22,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope) {
         $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
         
         saldoHist.push($scope.kasse.saldo)
+        
+        $scope.storage.journal = $scope.journal
         
         reset()
     };
@@ -39,6 +40,13 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope) {
         $scope.eingBuchungstxt = ""
         $scope.eingEinnahme = 0
         $scope.eingAusgabe = 0
+    }
+    
+    function init(){
+        
+        var journal = $scope.storage.journal
+        
+        return journal
     }
     
 });
