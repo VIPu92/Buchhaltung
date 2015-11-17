@@ -2,15 +2,27 @@ var kassenbuchApp = angular.module('kassenbuchApp', ['ngStorage']);
 
 kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     
+    //initialisieren der Kasse und des journals
     $scope.storage = $localStorage.$default( {journal: []})
-    
-    $scope.journal = init()
-    
-    var autoBuchungsnr = 0
     $scope.kasse = new Konto('Kasse', 0)
-    var saldoHist = [0] //array das die saldo history verfolgt, gebastelte lösung für die saldo anzeige
+    //initialisieren der hilfsvariablen
+    var autoBuchungsnr = 0
+    var saldoHist = [0]         //array das die saldo history verfolgt
+    
+    //lesen des localstorages
+    $scope.journal = init()
+    //initialisieren der Kasse anhand des journals
+    initKasse()
+    
+    //akktualisieren der Buchungsnummer
+    autoBuchungsnr = $scope.journal.length
+    
+    //reset der input-felder
     reset()
     
+    /*
+        Funktion für das abspeichern der Buchungen
+    */
     $scope.speichern = function(){
         
         autoBuchungsnr++
@@ -33,7 +45,9 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         return saldoHist[aktBuchung.nr]
     };
     
-    
+    /*
+        Funktion für das löschen der input-felder
+    */
     function reset(){
         $scope.eingDatum = "tt.mm.jjjj"
         $scope.eingBelegnr = ""
@@ -42,11 +56,28 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         $scope.eingAusgabe = 0
     }
     
+    /*
+        Funktion für das lesen des localstorages zu beginn
+    */
     function init(){
         
         var journal = $scope.storage.journal
         
         return journal
+    }
+    
+    /*
+        Funktion für das akktualisieren der Kasse nach dem lesen des Journals
+        aus dem localstorage
+    */
+    function initKasse(){
+        
+        for(var i=0;i<$scope.journal.length; i++){
+            $scope.kasse.saldo += parseFloat($scope.journal[i].ein)
+            $scope.kasse.saldo -= parseFloat($scope.journal[i].aus)
+            
+            saldoHist.push($scope.kasse.saldo)
+        }
     }
     
 });
