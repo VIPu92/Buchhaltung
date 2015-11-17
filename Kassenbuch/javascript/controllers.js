@@ -7,12 +7,12 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     $scope.kasse = new Konto('Kasse', 0)
     //initialisieren der hilfsvariablen
     var autoBuchungsnr = 0
-    var saldoHist = [0]         //array das die saldo history verfolgt
+    var saldoHist = []         //array das die saldo history verfolgt
     
     //lesen des localstorages
     $scope.journal = init()
     //initialisieren der Kasse anhand des journals
-    initKasse()
+    akktuKasse()
     
     //akktualisieren der Buchungsnummer
     autoBuchungsnr = $scope.journal.length
@@ -36,9 +36,45 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         saldoHist.push($scope.kasse.saldo)
         
         //abspeichern des akktualisierten journals
-        $scope.storage.journal = $scope.journal
+        speichJournal()
         
         reset()
+    };
+    
+    /*
+        Funktion für das löschen einer Buchung
+    */
+    $scope.loeschen = function(buchung){
+    
+        var index = buchung.nr - 1      //index ist die position der zu löschenden buchung im journal
+        
+        //aufspalten des journals in eine teil der nicht ändert und einen teil der ändert (vor und nach der zu löschenden buchung)
+        var bleibt = $scope.journal.slice(0, index)
+        var aendert = index>=($scope.journal.length-1) ? [] : $scope.journal.slice(index+1)
+        
+        //korrigierten der Buchungsnummern der Buchungen nach der gelöschten Buchung
+        aendert.forEach(function(b){
+            b.nr -= 1
+        });
+        
+        //wieder zusammenfügen der teilarrays zum neuen journal
+        $scope.journal = bleibt.concat(aendert)
+        
+        //dekrementieren der automatischen buchungsnummer
+        autoBuchungsnr--;
+        
+        //korrigieren des Kassensaldos
+        akktuKasse()
+        
+        //speichern des neuen journals
+        speichJournal()
+    };
+    
+    /*
+        Funktion für das bearbeiten einer Buchung
+    */
+    $scope.bearbeiten = function(buchung){
+        
     };
     
     /*
@@ -46,8 +82,15 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     */
     $scope.getSaldo = function(aktBuchung){
         
-        return saldoHist[aktBuchung.nr]
+        return saldoHist[aktBuchung.nr-1]
     };
+    
+    /*
+        Funktion die das Journal in den localstorage speichert
+    */
+    function speichJournal(){
+        $scope.storage.journal = $scope.journal
+    }
     
     /*
         Funktion für das löschen der input-felder
@@ -71,10 +114,12 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     }
     
     /*
-        Funktion für das akktualisieren der Kasse nach dem lesen des Journals
-        aus dem localstorage
+        Funktion für das nachrechnen des Kassensaldos nach änderungen im journal
     */
-    function initKasse(){
+    function akktuKasse(){
+        
+        saldoHist = []
+        $scope.kasse.saldo = 0
         
         for(var i=0;i<$scope.journal.length; i++){
             $scope.kasse.saldo += parseFloat($scope.journal[i].ein)
