@@ -35,11 +35,15 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         
         saldoHist.push($scope.kasse.saldo)
         
+        //abspeichern des akktualisierten journals
         $scope.storage.journal = $scope.journal
         
         reset()
     };
     
+    /*
+        Funktion für die Rückgabe des saldos der kasse nach einer gegebenen Buchung
+    */
     $scope.getSaldo = function(aktBuchung){
         
         return saldoHist[aktBuchung.nr]
