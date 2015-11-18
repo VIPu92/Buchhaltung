@@ -105,6 +105,17 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     };
     
     /*
+        Funktion die die Daten einer Buchung in die Maske kopiert
+    */
+    $scope.kopieren = function(buchung){
+        $scope.eingDatum = buchung.datum
+        $scope.eingBelegnr = buchung.belegnr
+        $scope.eingBuchungstxt = buchung.buchungstxt
+        $scope.eingEinnahme = buchung.ein
+        $scope.eingAusgabe = buchung.aus
+    };
+    
+    /*
         Funktion für die Rückgabe des saldos der kasse nach einer gegebenen Buchung
     */
     $scope.getSaldo = function(aktBuchung){
