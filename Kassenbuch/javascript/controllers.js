@@ -8,6 +8,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     //initialisieren der hilfsvariablen
     var autoBuchungsnr = 0
     var saldoHist = []         //array das die saldo history verfolgt
+    $scope.buttonTxt = "Speichern"
+    var buchInBearb = -1        //speichert die nr der Buchung in bearbeitung, -1 wenn keine in bearbeitung
     
     //lesen des localstorages
     $scope.journal = init()
@@ -25,15 +27,32 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
     */
     $scope.speichern = function(){
         
-        autoBuchungsnr++
-        var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingEinnahme, $scope.eingAusgabe)
+        if(buchInBearb < 0){ //eine neue Buchung speichern
+            autoBuchungsnr++
+            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingEinnahme, $scope.eingAusgabe)
         
-        $scope.journal.push(b)
+            $scope.journal.push(b)
         
-        $scope.kasse.saldo += parseFloat($scope.eingEinnahme) //muss explizit als zahl deklariert werden, da als text eingelesen wird
-        $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
+            $scope.kasse.saldo += parseFloat($scope.eingEinnahme) //muss explizit als zahl deklariert werden, da als text eingelesen wird
+            $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
         
-        saldoHist.push($scope.kasse.saldo)
+            saldoHist.push($scope.kasse.saldo)
+        } else { //eine Buchung bearbeiten
+            var b = $scope.journal[buchInBearb-1]
+            var ein = b.ein
+            var aus = b.aus
+            
+            b.datum = $scope.eingDatum
+            b.belegnr = $scope.eingBelegnr
+            b.buchungstxt = $scope.eingBuchungstxt
+            b.ein = $scope.eingEinnahme
+            b.aus = $scope.eingAusgabe
+            
+            $scope.journal[buchInBearb-1] = b   //eintragen der bearbeiteten buchung
+            
+            if(ein!=b.ein || aus!=b.aus) {akktuKasse()} //Kasse nur akktualisieren wenn sich die Einnahme oder Ausgabe ändert
+        }
+        
         
         //abspeichern des akktualisierten journals
         speichJournal()
@@ -74,7 +93,15 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         Funktion für das bearbeiten einer Buchung
     */
     $scope.bearbeiten = function(buchung){
-        
+        if($scope.buttonTxt == "Speichern"){
+            $scope.eingDatum = buchung.datum
+            $scope.eingBelegnr = buchung.belegnr
+            $scope.eingBuchungstxt = buchung.buchungstxt
+            $scope.eingEinnahme = buchung.ein
+            $scope.eingAusgabe = buchung.aus
+            $scope.buttonTxt = "Fertig"
+            buchInBearb = buchung.nr
+        }
     };
     
     /*
@@ -101,6 +128,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         $scope.eingBuchungstxt = ""
         $scope.eingEinnahme = 0
         $scope.eingAusgabe = 0
+        $scope.buttonTxt = "Speichern"
+        buchInBearb = -1
     }
     
     /*
