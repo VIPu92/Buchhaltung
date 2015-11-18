@@ -1,0 +1,55 @@
+<!doctype html>
+    <html ng-app="kassenbuchApp">
+        <head>
+            <meta charset="utf-8">
+            <title>Kassenbuch</title>
+            <link rel="stylesheet" type="text/css" href="css/style.css">
+            
+            <script src="angular/angular.js"></script>
+            <script src="javascript/buchhaltung.js"></script>
+            <!--<script src="javascript/app.js"></script>-->
+            <script src="javascript/controllers.js"></script>
+            <script src="angular/ngStorage.js"></script>
+        </head>
+        <body ng-controller="kassenbuchCtrl">
+            <h1>Kassenbuch</h1>
+            
+            <section id="buchung">
+                <h2>Buchung</h2>
+                <p id="buchfeld">
+                    Datum: <input type="text" ng-model="eingDatum">
+                    Belegnr.: <input type="number" ng-model="eingBelegnr">
+                    Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
+                    Einnahme CHF: <input type="number" ng-model="eingEinnahme">
+                    Ausgabe CHF: <input type="number" ng-model="eingAusgabe">
+                    <button ng-click="speichern()">{{buttonTxt}}</button>
+                </p>
+            </section>
+            <section id="tab">
+                <h2>Journal</h2>
+                <table>
+                    <tr>
+                        <th>Buchungsnr</th>
+                        <th>Datum</th>
+                        <th>Belegnr</th>
+                        <th>Buchungstext</th>
+                        <th>Einnahmen</th>
+                        <th>Ausgaben</th>
+                        <th>Saldo</th>
+                    </tr>
+                    <tr ng-repeat="b in journal">
+                        <td class="centerAlign">{{b.nr}}</td>
+                        <td>{{b.datum}}</td>
+                        <td class="centerAlign">{{b.belegnr}}</td>
+                        <td>{{b.buchungstxt}}</td>
+                        <td class="rightAlign">{{b.ein}}</td>
+                        <td class="rightAlign">{{b.aus}}</td>
+                        <td class="rightAlign">{{getSaldo(b)}}</td>
+                        <td><button ng-click="loeschen(b)">Löschen</button></td>
+                        <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
+                        <td><button ng-click="kopieren(b)">Kopieren</button></td>
+                    </tr>
+                </table>
+            </section>
+        </body>
+    </html>
