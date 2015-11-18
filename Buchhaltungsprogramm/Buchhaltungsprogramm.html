@@ -1,0 +1,28 @@
+<!doctype html>
+    <html ng-app="buchhaltungApp">
+        <head>
+            <meta charset="utf-8">
+            <title>Buchhaltung</title>
+            <link rel="stylesheet" type="text/css" href="css/style.css">
+            
+            <script src="angular/angular.js"></script>
+            <script src="angular/angular-route.js"></script>
+            <script src="angular/ngStorage.js"></script>
+            <script src="javascript/buchhaltung.js"></script>
+            <script src="javascript/app.js"></script>
+            <script src="javascript/controllers.js"></script>
+        </head>
+        <body>
+            <h1>Buchhaltung</h1>
+            
+            <nav>
+                <ul>
+                    <li><a href="#/journal">JOURNAL</a></li>
+                    <li><a href="#/konten">KONTEN</a></li>
+                </ul>
+            </nav>
+            
+            <div ng-view></div>
+            
+        </body>
+    </html>

@@ -1,0 +1,37 @@
+<h2>Journal</h2>
+<fieldset>
+    <legend>Buchung</legend>
+    <p id="buchfeld">
+        Datum: <input type="text" ng-model="eingDatum">
+        Belegnr.: <input type="number" ng-model="eingBelegnr">
+        Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
+        Einnahme CHF: <input type="number" ng-model="eingEinnahme">
+        Ausgabe CHF: <input type="number" ng-model="eingAusgabe">
+        <button ng-click="speichern()">{{buttonTxt}}</button>
+    </p>
+</fieldset>
+<section id="tab">
+    <table>
+        <tr>
+            <th>Buchungsnr</th>
+            <th>Datum</th>
+            <th>Belegnr</th>
+            <th>Buchungstext</th>
+            <th>Einnahmen</th>
+            <th>Ausgaben</th>
+            <th>Saldo</th>
+        </tr>
+        <tr ng-repeat="b in journal">
+            <td class="centerAlign">{{b.nr}}</td>
+            <td>{{b.datum}}</td>
+            <td class="centerAlign">{{b.belegnr}}</td>
+            <td>{{b.buchungstxt}}</td>
+            <td class="rightAlign">{{b.ein}}</td>
+            <td class="rightAlign">{{b.aus}}</td>
+            <td class="rightAlign">{{getSaldo(b)}}</td>
+            <td><button ng-click="loeschen(b)">Löschen</button></td>
+            <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
+            <td><button ng-click="kopieren(b)">Kopieren</button></td>
+        </tr>
+    </table>
+</section>

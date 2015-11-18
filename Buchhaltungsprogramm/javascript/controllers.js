@@ -1,6 +1,6 @@
-var kassenbuchApp = angular.module('kassenbuchApp', ['ngStorage']);
+var controllers = angular.module('controllers', ['ngStorage']);
 
-kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
+controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
     //initialisieren der Kasse und des journals
     $scope.storage = $localStorage.$default( {journal: []})

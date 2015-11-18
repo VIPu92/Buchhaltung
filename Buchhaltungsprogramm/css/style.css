@@ -19,23 +19,31 @@ h2 {
 }
 
 nav {
-    padding:    3px;
     border:     thin solid #cccccc;
 }
 
-#buchfeld {
-    border:     thin solid #cccccc;
-    padding:    5px;
+nav ul{
+    margin:     0px;
+    padding:    5px 0px 5px 0px;
 }
 
-#details {
-    margin-top:     20px;
-    padding:    30px;
-    border:     thin solid #cccccc;
+nav ul li{
+    display: inline;
+    padding: 5px 10px 5px 10px;
+}
+
+nav ul li a:link, nav ul li a:visited{
+    border-bottom:      none;
+    color:              black;
+    font-weight:        bold;
 }
 
 button {
     background-color:   #cccccc;
+}
+
+fieldset{
+    margin-bottom: 20px;
 }
 
 table {
