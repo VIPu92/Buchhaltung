@@ -29,28 +29,27 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         
         if(buchInBearb < 0){ //eine neue Buchung speichern
             autoBuchungsnr++
-            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingEinnahme, $scope.eingAusgabe)
+            var betrag = ($scope.eingArt=="ein"?parseFloat($scope.eingBetrag):-parseFloat($scope.eingBetrag))    //muss explizit als zahl deklariert werden, da als text eingelesen wird
+            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, betrag)
         
             $scope.journal.push(b)
         
-            $scope.kasse.saldo += parseFloat($scope.eingEinnahme) //muss explizit als zahl deklariert werden, da als text eingelesen wird
-            $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
+            $scope.kasse.saldo += betrag 
+            
         
             saldoHist.push($scope.kasse.saldo)
         } else { //eine Buchung bearbeiten
             var b = $scope.journal[buchInBearb-1]
-            var ein = b.ein
-            var aus = b.aus
+            var betrag = b.betrag
             
             b.datum = $scope.eingDatum
             b.belegnr = $scope.eingBelegnr
             b.buchungstxt = $scope.eingBuchungstxt
-            b.ein = $scope.eingEinnahme
-            b.aus = $scope.eingAusgabe
+            b.betrag = ($scope.eingArt=="ein"?parseFloat($scope.eingBetrag):-parseFloat($scope.eingBetrag))
             
             $scope.journal[buchInBearb-1] = b   //eintragen der bearbeiteten buchung
             
-            if(ein!=b.ein || aus!=b.aus) {akktuKasse()} //Kasse nur akktualisieren wenn sich die Einnahme oder Ausgabe ändert
+            if(betrag!=b.betrag) {akktuKasse()} //Kasse nur akktualisieren wenn sich die Einnahme oder Ausgabe ändert
         }
         
         
@@ -97,8 +96,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
             $scope.eingDatum = buchung.datum
             $scope.eingBelegnr = buchung.belegnr
             $scope.eingBuchungstxt = buchung.buchungstxt
-            $scope.eingEinnahme = buchung.ein
-            $scope.eingAusgabe = buchung.aus
+            $scope.eingBetrag = (buchung.betrag>=0?buchung.betrag:-buchung.betrag)
+            $scope.eingArt = (buchung.betrag>=0?"ein":"aus")
             $scope.buttonTxt = "Fertig"
             buchInBearb = buchung.nr
         }
@@ -111,8 +110,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         $scope.eingDatum = buchung.datum
         $scope.eingBelegnr = buchung.belegnr
         $scope.eingBuchungstxt = buchung.buchungstxt
-        $scope.eingEinnahme = buchung.ein
-        $scope.eingAusgabe = buchung.aus
+        $scope.eingBetrag = (buchung.betrag>=0?buchung.betrag:-buchung.betrag)
+        $scope.eingArt = (buchung.betrag>=0?"ein":"aus")
     };
     
     /*
@@ -137,8 +136,8 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         $scope.eingDatum = "tt.mm.jjjj"
         $scope.eingBelegnr = ""
         $scope.eingBuchungstxt = ""
-        $scope.eingEinnahme = 0
-        $scope.eingAusgabe = 0
+        $scope.eingBetrag = 0
+        $scope.eingArt = "ein"
         $scope.buttonTxt = "Speichern"
         buchInBearb = -1
     }
@@ -162,8 +161,7 @@ kassenbuchApp.controller('kassenbuchCtrl', function ($scope, $localStorage) {
         $scope.kasse.saldo = 0
         
         for(var i=0;i<$scope.journal.length; i++){
-            $scope.kasse.saldo += parseFloat($scope.journal[i].ein)
-            $scope.kasse.saldo -= parseFloat($scope.journal[i].aus)
+            $scope.kasse.saldo += $scope.journal[i].betrag
             
             saldoHist.push($scope.kasse.saldo)
         }

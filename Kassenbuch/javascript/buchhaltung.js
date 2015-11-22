@@ -1,15 +1,14 @@
-function Buchung(buchungsnr, datum, belegnr, buchungstxt, ein, aus){
+function Buchung(buchungsnr, datum, belegnr, buchungstxt, betrag){
     
     this.nr = buchungsnr
     this.datum = datum
     this.buchungstxt = buchungstxt
     this.belegnr = belegnr
-    this.ein = ein
-    this.aus = aus
+    this.betrag = betrag
     
     Buchung.prototype.ausgabe = function(){
         
-        return "Buchung "+this.id+" "+this.datum+" "+this.belegnr+" "+this.buchungstxt+" "+this.ein+" "+this.aus
+        return "Buchung "+this.id+" "+this.datum+" "+this.belegnr+" "+this.buchungstxt+" "+this.betrag
     }
 }
 

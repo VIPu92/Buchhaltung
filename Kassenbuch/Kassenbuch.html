@@ -20,8 +20,9 @@
                     Datum: <input type="text" ng-model="eingDatum">
                     Belegnr.: <input type="number" ng-model="eingBelegnr">
                     Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
-                    Einnahme CHF: <input type="number" ng-model="eingEinnahme">
-                    Ausgabe CHF: <input type="number" ng-model="eingAusgabe">
+                    <input type="radio" ng-model="eingArt" value="ein">Einnahme
+                    <input type="radio" ng-model="eingArt" value="aus">Ausgabe<br>
+                    Betrag CHF: <input type="number" ng-model="eingBetrag">
                     <button ng-click="speichern()">{{buttonTxt}}</button>
                 </p>
             </section>
@@ -42,8 +43,8 @@
                         <td>{{b.datum}}</td>
                         <td class="centerAlign">{{b.belegnr}}</td>
                         <td>{{b.buchungstxt}}</td>
-                        <td class="rightAlign">{{b.ein}}</td>
-                        <td class="rightAlign">{{b.aus}}</td>
+                        <td class="rightAlign">{{(b.betrag>=0?b.betrag:0)}}</td>
+                        <td class="rightAlign">{{(b.betrag<0?-b.betrag:0)}}</td>
                         <td class="rightAlign">{{getSaldo(b)}}</td>
                         <td><button ng-click="loeschen(b)">Löschen</button></td>
                         <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
