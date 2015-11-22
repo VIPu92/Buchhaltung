@@ -5,8 +5,9 @@
         Datum: <input type="text" ng-model="eingDatum">
         Belegnr.: <input type="number" ng-model="eingBelegnr">
         Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
-        Einnahme CHF: <input type="number" ng-model="eingEinnahme">
-        Ausgabe CHF: <input type="number" ng-model="eingAusgabe">
+        Konto Soll: <input type="number" ng-model="eingKontoSoll">
+        Konto Haben: <input type="number" ng-model="eingKontoHaben"><br>
+        Betrag CHF: <input type="number" ng-model="eingBetrag">
         <button ng-click="speichern()">{{buttonTxt}}</button>
     </p>
 </fieldset>
@@ -17,18 +18,18 @@
             <th>Datum</th>
             <th>Belegnr</th>
             <th>Buchungstext</th>
-            <th>Einnahmen</th>
-            <th>Ausgaben</th>
-            <th>Saldo</th>
+            <th>Konto Soll</th>
+            <th>Konto Haben</th>
+            <th>Betrag</th>
         </tr>
         <tr ng-repeat="b in journal">
             <td class="centerAlign">{{b.nr}}</td>
             <td>{{b.datum}}</td>
             <td class="centerAlign">{{b.belegnr}}</td>
             <td>{{b.buchungstxt}}</td>
-            <td class="rightAlign">{{b.ein}}</td>
-            <td class="rightAlign">{{b.aus}}</td>
-            <td class="rightAlign">{{getSaldo(b)}}</td>
+            <td class="rightAlign">{{b.kontoSoll}}</td>
+            <td class="rightAlign">{{b.kontoHaben}}</td>
+            <td class="rightAlign">{{b.betrag}}</td>
             <td><button ng-click="loeschen(b)">Löschen</button></td>
             <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
             <td><button ng-click="kopieren(b)">Kopieren</button></td>

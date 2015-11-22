@@ -12,9 +12,11 @@ kassenbuchApp.config(['$routeProvider',
                 controller: 'buchhaltungCtrl'
             }).
             when('/konten', {
-                templateUrl: 'partials/kontenblatt.html'
+                templateUrl: 'partials/kontenblatt.html',
+                controller: 'buchhaltungCtrl'
             }).
             otherwise({
-                redirectTo: '/journal'
+                redirectTo: '/journal',
+                controller: 'buchhaltungCtrl'
             });
 }]);

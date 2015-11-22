@@ -2,19 +2,24 @@ var controllers = angular.module('controllers', ['ngStorage']);
 
 controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
-    //initialisieren der Kasse und des journals
+    //initialisieren der Konti
+    $scope.konten = [
+        new Konto(1000, "Kasse", 0),
+        new Konto(1020, "Bankguthaben", 0),
+        new Konto(1530, "Fahrzeuge", 0),
+        new Konto(2000, "Kreditoren", 0),
+        new Konto(2800, "Eigenkapital", 0)
+    ];
+    
+    //initialisieren des journals
     $scope.storage = $localStorage.$default( {journal: []})
-    $scope.kasse = new Konto('Kasse', 0)
     //initialisieren der hilfsvariablen
     var autoBuchungsnr = 0
-    var saldoHist = []         //array das die saldo history verfolgt
     $scope.buttonTxt = "Speichern"
     var buchInBearb = -1        //speichert die nr der Buchung in bearbeitung, -1 wenn keine in bearbeitung
     
     //lesen des localstorages
     $scope.journal = init()
-    //initialisieren der Kasse anhand des journals
-    akktuKasse()
     
     //akktualisieren der Buchungsnummer
     autoBuchungsnr = $scope.journal.length
@@ -29,28 +34,26 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         
         if(buchInBearb < 0){ //eine neue Buchung speichern
             autoBuchungsnr++
-            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingEinnahme, $scope.eingAusgabe)
+            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingKontoSoll, $scope.eingKontoHaben, $scope.eingBetrag)
         
             $scope.journal.push(b)
         
-            $scope.kasse.saldo += parseFloat($scope.eingEinnahme) //muss explizit als zahl deklariert werden, da als text eingelesen wird
-            $scope.kasse.saldo -= parseFloat($scope.eingAusgabe)
+            /*VERBUCHEN DES BETRAGS IN DEN KONTI*/
         
-            saldoHist.push($scope.kasse.saldo)
         } else { //eine Buchung bearbeiten
             var b = $scope.journal[buchInBearb-1]
-            var ein = b.ein
-            var aus = b.aus
             
             b.datum = $scope.eingDatum
             b.belegnr = $scope.eingBelegnr
             b.buchungstxt = $scope.eingBuchungstxt
-            b.ein = $scope.eingEinnahme
-            b.aus = $scope.eingAusgabe
+            b.kontoSoll = $scope.eingKontoSoll
+            b.kontoHaben = $scope.eingKontoHaben
+            b.betrag = $scope.eingBetrag
             
             $scope.journal[buchInBearb-1] = b   //eintragen der bearbeiteten buchung
             
-            if(ein!=b.ein || aus!=b.aus) {akktuKasse()} //Kasse nur akktualisieren wenn sich die Einnahme oder Ausgabe ändert
+            /* EV. VERBUCHEN DES BETRAGS IN ENTSP. KONTI*/
+            /* EV. LÖSCHEN DER BUCHUNG IN ENTSP. KONTI*/
         }
         
         
@@ -82,8 +85,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         //dekrementieren der automatischen buchungsnummer
         autoBuchungsnr--;
         
-        //korrigieren des Kassensaldos
-        akktuKasse()
+         /*LÖSCHEN DER BUCHUNG IN DEN ENTSP. KONTEN*/
         
         //speichern des neuen journals
         speichJournal()
@@ -97,8 +99,9 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
             $scope.eingDatum = buchung.datum
             $scope.eingBelegnr = buchung.belegnr
             $scope.eingBuchungstxt = buchung.buchungstxt
-            $scope.eingEinnahme = buchung.ein
-            $scope.eingAusgabe = buchung.aus
+            $scope.eingKontoSoll = buchung.kontoSoll
+            $scope.eingKontoHaben = buchung.kontoHaben
+            $scope.eingBetrag = buchung.betrag
             $scope.buttonTxt = "Fertig"
             buchInBearb = buchung.nr
         }
@@ -111,16 +114,9 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         $scope.eingDatum = buchung.datum
         $scope.eingBelegnr = buchung.belegnr
         $scope.eingBuchungstxt = buchung.buchungstxt
-        $scope.eingEinnahme = buchung.ein
-        $scope.eingAusgabe = buchung.aus
-    };
-    
-    /*
-        Funktion für die Rückgabe des saldos der kasse nach einer gegebenen Buchung
-    */
-    $scope.getSaldo = function(aktBuchung){
-        
-        return saldoHist[aktBuchung.nr-1]
+        $scope.eingKontoSoll = buchung.kontoSoll
+        $scope.eingKontoHaben = buchung.kontoHaben
+        $scope.eingBetrag = buchung.betrag
     };
     
     /*
@@ -137,8 +133,9 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         $scope.eingDatum = "tt.mm.jjjj"
         $scope.eingBelegnr = ""
         $scope.eingBuchungstxt = ""
-        $scope.eingEinnahme = 0
-        $scope.eingAusgabe = 0
+        $scope.eingKontoSoll = 0
+        $scope.eingKontoHaben = 0
+        $scope.eingBetrag = 0
         $scope.buttonTxt = "Speichern"
         buchInBearb = -1
     }
@@ -151,22 +148,6 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         var journal = $scope.storage.journal
         
         return journal
-    }
-    
-    /*
-        Funktion für das nachrechnen des Kassensaldos nach änderungen im journal
-    */
-    function akktuKasse(){
-        
-        saldoHist = []
-        $scope.kasse.saldo = 0
-        
-        for(var i=0;i<$scope.journal.length; i++){
-            $scope.kasse.saldo += parseFloat($scope.journal[i].ein)
-            $scope.kasse.saldo -= parseFloat($scope.journal[i].aus)
-            
-            saldoHist.push($scope.kasse.saldo)
-        }
     }
     
 });
