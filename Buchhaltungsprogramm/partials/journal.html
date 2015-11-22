@@ -5,8 +5,14 @@
         Datum: <input type="text" ng-model="eingDatum">
         Belegnr.: <input type="number" ng-model="eingBelegnr">
         Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
-        Konto Soll: <input type="number" ng-model="eingKontoSoll">
-        Konto Haben: <input type="number" ng-model="eingKontoHaben"><br>
+        Konto Soll: 
+        <select ng-model="eingKontoSoll">
+            <option ng-repeat="k in konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
+        </select>
+        Konto Haben: 
+        <select ng-model="eingKontoHaben">
+            <option ng-repeat="k in konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
+        </select><br>
         Betrag CHF: <input type="number" ng-model="eingBetrag">
         <button ng-click="speichern()">{{buttonTxt}}</button>
     </p>
