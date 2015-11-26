@@ -12,7 +12,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     ];
     
     //initialisieren des Speichers
-    $scope.storage = $localStorage.$default( {journal: []})
+    $scope.storage = $localStorage.$default( {journalBuchhaltung: []})
     //initialisieren der hilfsvariablen
     var autoBuchungsnr = 0
     $scope.buttonTxt = "Speichern"

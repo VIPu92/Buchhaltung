@@ -12,6 +12,10 @@ kassenbuchApp.config(['$routeProvider',
                 controller: 'buchhaltungCtrl'
             }).
             when('/konten', {
+                templateUrl: 'partials/kontenplan.html',
+                controller: 'buchhaltungCtrl'
+            }).
+            when('/kontenblatt', {
                 templateUrl: 'partials/kontenblatt.html',
                 controller: 'buchhaltungCtrl'
             }).
