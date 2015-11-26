@@ -11,7 +11,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         new Konto(2800, "Eigenkapital", 0)
     ];
     
-    //initialisieren des journals
+    //initialisieren des Speichers
     $scope.storage = $localStorage.$default( {journal: []})
     //initialisieren der hilfsvariablen
     var autoBuchungsnr = 0
@@ -123,7 +123,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         Funktion die das Journal in den localstorage speichert
     */
     function speichJournal(){
-        $scope.storage.journal = $scope.journal
+        $scope.storage.journalBuchhaltung = $scope.journal
     }
     
     /*
@@ -144,8 +144,8 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         Funktion für das lesen des localstorages zu beginn
     */
     function init(){
-        
-        var journal = $scope.storage.journal
+
+        var journal = $scope.storage.journalBuchhaltung
         
         return journal
     }
