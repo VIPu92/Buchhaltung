@@ -3,62 +3,74 @@ var controllers = angular.module('controllers', ['ngStorage']);
 controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
     //initialisieren der Konti
-    $scope.konten = [
-        new Konto(1000, "Kasse", 0),
-        new Konto(1020, "Bankguthaben", 0),
-        new Konto(1530, "Fahrzeuge", 0),
-        new Konto(2000, "Kreditoren", 0),
-        new Konto(2800, "Eigenkapital", 0)
-    ];
+    $scope.konten = new Kontenplan('Standart')
+    
+    
+    $scope.konten.k_speichern(new Konto(1000, "Kasse", 0))
+    $scope.konten.k_speichern(new Konto(1020, "Bankguthaben", 0))
+    $scope.konten.k_speichern(new Konto(1530, "Fahrzeuge", 0))
+    $scope.konten.k_speichern(new Konto(2000, "Kreditoren", 0))
+    $scope.konten.k_speichern(new Konto(2800, "Eigenkapital", 0))
+    
     
     //initialisieren des Speichers
+    /*NUR PROVISORISCH*/
     $scope.storage = $localStorage.$default( {journalBuchhaltung: []})
     //initialisieren der hilfsvariablen
-    var autoBuchungsnr = 0
     $scope.buttonTxt = "Speichern"
-    var buchInBearb = -1        //speichert die nr der Buchung in bearbeitung, -1 wenn keine in bearbeitung
+    var inBearb = -1        //speichert die nr der Buchung oder des kontos in bearbeitung, -1 wenn keine in bearbeitung
     
-    //lesen des localstorages
-    $scope.journal = init()
-    
-    //akktualisieren der Buchungsnummer
-    autoBuchungsnr = $scope.journal.length
+    //initialisieren des journals
+    $scope.journal = new Journal('Test', $scope.storage)
+    $scope.journal.j_lesen();
     
     //reset der input-felder
     reset()
     
     /*
-        Funktion für das abspeichern der Buchungen
+        Funktion für das abspeichern der Buchungen und Konti
     */
-    $scope.speichern = function(){
+    $scope.speichern = function(typ){
         
-        if(buchInBearb < 0){ //eine neue Buchung speichern
-            autoBuchungsnr++
-            var b = new Buchung(autoBuchungsnr, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingKontoSoll, $scope.eingKontoHaben, $scope.eingBetrag)
-        
-            $scope.journal.push(b)
-        
-            /*VERBUCHEN DES BETRAGS IN DEN KONTI*/
-        
-        } else { //eine Buchung bearbeiten
-            var b = $scope.journal[buchInBearb-1]
+        if(typ == 'buchung'){
+            if(inBearb < 0){ //eine neue Buchung speichern
+
+                var b = new Buchung(0, $scope.eingDatum, $scope.eingBelegnr, $scope.eingBuchungstxt, $scope.eingKontoSoll, $scope.eingKontoHaben, $scope.eingBetrag)
             
-            b.datum = $scope.eingDatum
-            b.belegnr = $scope.eingBelegnr
-            b.buchungstxt = $scope.eingBuchungstxt
-            b.kontoSoll = $scope.eingKontoSoll
-            b.kontoHaben = $scope.eingKontoHaben
-            b.betrag = $scope.eingBetrag
+                $scope.journal.b_speichern(b)
+        
+                /*VERBUCHEN DES BETRAGS IN DEN KONTI*/
+        
+            } else { //eine Buchung bearbeiten
+                var b = $scope.journal.buchungFuerBuchungsnr(inBearb)
             
-            $scope.journal[buchInBearb-1] = b   //eintragen der bearbeiteten buchung
+                b.datum = $scope.eingDatum
+                b.belegnr = $scope.eingBelegnr
+                b.buchungstxt = $scope.eingBuchungstxt
+                b.kontoSoll = $scope.eingKontoSoll
+                b.kontoHaben = $scope.eingKontoHaben
+                b.betrag = $scope.eingBetrag
             
-            /* EV. VERBUCHEN DES BETRAGS IN ENTSP. KONTI*/
-            /* EV. LÖSCHEN DER BUCHUNG IN ENTSP. KONTI*/
+                $scope.journal.b_ueberschreiben(b)   //eintragen der bearbeiteten buchung
+            
+                /* EV. VERBUCHEN DES BETRAGS IN ENTSP. KONTI*/
+                /* EV. LÖSCHEN DER BUCHUNG IN ENTSP. KONTI*/
+            }
+        } else {
+            if(inBearb < 0){ //ein neues Konto speichern
+                var k = new Konto($scope.eingKontonr, $scope.eingKontoname, $scope.eingEroeffnungssaldo)
+            
+                $scope.konten.k_speichern(k)
+            } else { //ein Konto bearbeiten
+                var k = $scope.konten.kVonKnr(inBearb)
+                
+                k.nr = $scope.eingKontonr
+                k.name = $scope.eingKontoname
+                k.eroeffnungssaldo = $scope.eingEroeffnungssaldo
+                
+                $scope.konten.k_ueberschreiben(k)
+            }
         }
-        
-        
-        //abspeichern des akktualisierten journals
-        speichJournal()
         
         reset()
     };
@@ -66,65 +78,51 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     /*
         Funktion für das löschen einer Buchung
     */
-    $scope.loeschen = function(buchung){
+    $scope.loeschen = function(obj, typ){
     
-        var index = buchung.nr - 1      //index ist die position der zu löschenden buchung im journal
-        
-        //aufspalten des journals in eine teil der nicht ändert und einen teil der ändert (vor und nach der zu löschenden buchung)
-        var bleibt = $scope.journal.slice(0, index)
-        var aendert = index>=($scope.journal.length-1) ? [] : $scope.journal.slice(index+1)
-        
-        //korrigierten der Buchungsnummern der Buchungen nach der gelöschten Buchung
-        aendert.forEach(function(b){
-            b.nr -= 1
-        });
-        
-        //wieder zusammenfügen der teilarrays zum neuen journal
-        $scope.journal = bleibt.concat(aendert)
-        
-        //dekrementieren der automatischen buchungsnummer
-        autoBuchungsnr--;
-        
-         /*LÖSCHEN DER BUCHUNG IN DEN ENTSP. KONTEN*/
-        
-        //speichern des neuen journals
-        speichJournal()
+        typ == 'buchung' ? $scope.journal.b_loeschen(obj) : $scope.konten.k_loeschen(obj)
     };
     
     /*
         Funktion für das bearbeiten einer Buchung
     */
-    $scope.bearbeiten = function(buchung){
+    $scope.bearbeiten = function(obj, typ){
         if($scope.buttonTxt == "Speichern"){
-            $scope.eingDatum = buchung.datum
-            $scope.eingBelegnr = buchung.belegnr
-            $scope.eingBuchungstxt = buchung.buchungstxt
-            $scope.eingKontoSoll = buchung.kontoSoll
-            $scope.eingKontoHaben = buchung.kontoHaben
-            $scope.eingBetrag = buchung.betrag
+            if(typ == 'buchung'){
+                $scope.eingDatum = obj.datum
+                $scope.eingBelegnr = obj.belegnr
+                $scope.eingBuchungstxt = obj.buchungstxt
+                $scope.eingKontoSoll = obj.kontoSoll
+                $scope.eingKontoHaben = obj.kontoHaben
+                $scope.eingBetrag = obj.betrag
+            } else {
+                $scope.eingKontonr = obj.nr
+                $scope.eingKontoname = obj.name
+                $scope.eingEroeffnungssaldo = obj.eroeffnungssaldo
+            }
+            
+            inBearb = obj.nr
             $scope.buttonTxt = "Fertig"
-            buchInBearb = buchung.nr
         }
     };
     
     /*
         Funktion die die Daten einer Buchung in die Maske kopiert
     */
-    $scope.kopieren = function(buchung){
-        $scope.eingDatum = buchung.datum
-        $scope.eingBelegnr = buchung.belegnr
-        $scope.eingBuchungstxt = buchung.buchungstxt
-        $scope.eingKontoSoll = buchung.kontoSoll
-        $scope.eingKontoHaben = buchung.kontoHaben
-        $scope.eingBetrag = buchung.betrag
+    $scope.kopieren = function(obj, typ){
+        if(typ == 'buchung'){
+            $scope.eingDatum = obj.datum
+            $scope.eingBelegnr = obj.belegnr
+            $scope.eingBuchungstxt = obj.buchungstxt
+            $scope.eingKontoSoll = obj.kontoSoll
+            $scope.eingKontoHaben = obj.kontoHaben
+            $scope.eingBetrag = obj.betrag
+        } else {
+            $scope.eingKontonr = obj.nr
+            $scope.eingKontoname = obj.name
+            $scope.eingEroeffnungssaldo = obj.eroeffnungssaldo
+        }
     };
-    
-    /*
-        Funktion die das Journal in den localstorage speichert
-    */
-    function speichJournal(){
-        $scope.storage.journalBuchhaltung = $scope.journal
-    }
     
     /*
         Funktion für das löschen der input-felder
@@ -136,18 +134,13 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         $scope.eingKontoSoll = 0
         $scope.eingKontoHaben = 0
         $scope.eingBetrag = 0
-        $scope.buttonTxt = "Speichern"
-        buchInBearb = -1
-    }
-    
-    /*
-        Funktion für das lesen des localstorages zu beginn
-    */
-    function init(){
-
-        var journal = $scope.storage.journalBuchhaltung
         
-        return journal
+        $scope.eingKontonr = ""
+        $scope.eingKontoname = ""
+        $scope.eingEroeffnungssaldo = 0
+        
+        $scope.buttonTxt = "Speichern"
+        inBearb = -1
     }
     
 });

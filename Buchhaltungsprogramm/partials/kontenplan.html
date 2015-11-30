@@ -3,19 +3,85 @@
     
     <fieldset>
         <legend>Kontomaske</legend>
-        
+        Kontonummer: <input type="number" ng-model="eingKontonr">
+        Kontoname.: <input type="text" ng-model="eingKontoname">
+        Eröffnungssaldo: <input type="number" ng-model="eingEroeffnungssaldo"><br>
+        <button ng-click="speichern('konto')">{{buttonTxt}}</button>
     </fieldset>
     
-    <table>
-        <tr>
-            <th>Kontonummer</th>
-            <th>Kontoname</th>
-            <th>Saldo</th>
-        </tr>
-        <tr ng-repeat="k in konten">
-            <td class="centerAlign">{{k.nr}}</td>
-            <td>{{k.name}}</td>
-            <td class="rightAlign">{{k.saldo}}</td>
-        </tr>
-    </table>
+    <div>
+        <h3>Aktiven</h3>
+        <table>
+            <tr>
+                <th>Kontonummer</th>
+                <th>Kontoname</th>
+                <th>Eröffnungssaldo</th>
+            </tr>
+            <tr ng-repeat="k in konten.aktiva()">
+                <td class="centerAlign">{{k.nr}}</td>
+                <td>{{k.name}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
+                <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
+                <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div>
+        <h3>Passiven</h3>
+        <table>
+            <tr>
+                <th>Kontonummer</th>
+                <th>Kontoname</th>
+                <th>Eröffnungssaldo</th>
+            </tr>
+            <tr ng-repeat="k in konten.passiva()">
+                <td class="centerAlign">{{k.nr}}</td>
+                <td>{{k.name}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
+                <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
+                <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div>
+        <h3>Ertrag</h3>
+        <table>
+            <tr>
+                <th>Kontonummer</th>
+                <th>Kontoname</th>
+                <th>Eröffnungssaldo</th>
+            </tr>
+            <tr ng-repeat="k in konten.ertragskonten()">
+                <td class="centerAlign">{{k.nr}}</td>
+                <td>{{k.name}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
+                <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
+                <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div>
+        <h3>Aufwand</h3>
+        <table>
+            <tr>
+                <th>Kontonummer</th>
+                <th>Kontoname</th>
+                <th>Eröffnungssaldo</th>
+            </tr>
+            <tr ng-repeat="k in konten.aufwandskonten()">
+                <td class="centerAlign">{{k.nr}}</td>
+                <td>{{k.name}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
+                <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
+                <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
+            </tr>
+        </table>
+    </div>
 </section>
