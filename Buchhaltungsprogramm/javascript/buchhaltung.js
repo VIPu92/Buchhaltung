@@ -21,4 +21,5 @@ function Konto(nr, name, startguthaben) {
     this.nr = nr
     this.name = name
     this.eroeffnungssaldo = startguthaben
+    this.saldo = startguthaben
 }

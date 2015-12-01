@@ -16,11 +16,13 @@
                 <th>Kontonummer</th>
                 <th>Kontoname</th>
                 <th>Eröffnungssaldo</th>
+                <th>Saldo</th>
             </tr>
             <tr ng-repeat="k in konten.aktiva()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
                 <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td class="rightAlign">{{k.saldo}}</td>
                 <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
@@ -35,11 +37,13 @@
                 <th>Kontonummer</th>
                 <th>Kontoname</th>
                 <th>Eröffnungssaldo</th>
+                <th>Saldo</th>
             </tr>
             <tr ng-repeat="k in konten.passiva()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
                 <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td class="rightAlign">{{k.saldo}}</td>
                 <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
@@ -54,11 +58,13 @@
                 <th>Kontonummer</th>
                 <th>Kontoname</th>
                 <th>Eröffnungssaldo</th>
+                <th>Saldo</th>
             </tr>
             <tr ng-repeat="k in konten.ertragskonten()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
                 <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td class="rightAlign">{{k.saldo}}</td>
                 <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>
@@ -73,11 +79,13 @@
                 <th>Kontonummer</th>
                 <th>Kontoname</th>
                 <th>Eröffnungssaldo</th>
+                <th>Saldo</th>
             </tr>
             <tr ng-repeat="k in konten.aufwandskonten()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
                 <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
+                <td class="rightAlign">{{k.saldo}}</td>
                 <td><button ng-click="loeschen(k, 'konto')">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k, 'konto')">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k, 'konto')">Kopieren</button></td>

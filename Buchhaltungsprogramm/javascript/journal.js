@@ -2,7 +2,7 @@ function Journal(name, storage){
     this.name = name
     this.storage = storage
     this.journal = []
-    this.autoBuchungsnr = 0
+    this.autoBuchungsnr = this.journal.length
     
     Journal.prototype.b_speichern = function(b){
         this.autoBuchungsnr++
@@ -50,6 +50,7 @@ function Journal(name, storage){
     Journal.prototype.j_lesen = function(){
         /*NUR PROVISORISCH*/
         this.journal = this.storage.journalBuchhaltung
+        this.autoBuchungsnr = this.journal.length
     };
     
     Journal.prototype.buchungFuerBuchungsnr = function(bnr){

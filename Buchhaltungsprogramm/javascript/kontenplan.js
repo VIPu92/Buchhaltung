@@ -5,6 +5,15 @@ function Kontenplan(name, storage){
     this.konten = []
     
     
+    Kontenplan.prototype.aktuSaldo = function(knr, betrag){
+        this.kVonKnr(knr).saldo += betrag
+    };
+    
+    Kontenplan.prototype.saldoVonKnr = function(knr){
+        return this.kVonKnr(knr).saldo
+    };
+    
+    
     Kontenplan.prototype.k_speichern = function (k){
         this.konten.push(k)
         
@@ -50,7 +59,7 @@ function Kontenplan(name, storage){
     };
         
     Kontenplan.prototype.aufwandskonten = function(){
-        return this.konten.filter(function(k){return k.nr>=4000 && k.nr<5000;})
+        return this.konten.filter(function(k){return k.nr>=4000 && k.nr<6000;})
     };
     
     
