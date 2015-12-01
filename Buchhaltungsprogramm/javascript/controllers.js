@@ -145,7 +145,8 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
             
             $scope.kontenblatt.push(eintrag)
         }
-        
+        var letzterSaldo = $scope.kontenblatt[$scope.kontenblatt.length-1].s
+        $scope.kontenblatt.push({b: new Buchung(0, 'Saldo', 0, '', 0, 0, (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
     };
     
     /*

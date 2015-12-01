@@ -16,10 +16,10 @@
             <th>Saldo</th>
         </tr>
         <tr ng-repeat="e in kontenblatt">
-            <th>{{e.t==""?"":e.b.datum}}</th>
-            <th>{{e.t==""?0:(e.t=="soll"?e.b.betrag:0)}}</th>
-            <th>{{e.t==""?0:(e.t=="haben"?e.b.betrag:0)}}</th>
-            <th>{{e.s}}</th>
+            <td>{{e.t==""?"Eröffnung":e.b.datum}}</td>
+            <td>{{e.t==""?0:(e.t=="soll"?e.b.betrag:0)}}</td>
+            <td>{{e.t==""?0:(e.t=="haben"?e.b.betrag:0)}}</td>
+            <td>{{e.b.datum=="Saldo"?"":e.s}}</th>
         </tr>
     </table>
 </section>
