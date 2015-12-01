@@ -56,5 +56,7 @@ function Journal(name, storage){
         return this.journal[bnr-1]
     };
     
-    Journal.prototype.buchungenFuerKontonr = function(knr){};
+    Journal.prototype.buchungenFuerKnr = function(knr){
+        return this.journal.filter(function(b){return b.kontoSoll == knr || b.kontoHaben == knr;})
+    };
 }

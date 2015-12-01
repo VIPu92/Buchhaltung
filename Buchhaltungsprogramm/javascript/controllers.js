@@ -2,28 +2,30 @@ var controllers = angular.module('controllers', ['ngStorage']);
 
 controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
-    //initialisieren der Konti
-    $scope.konten = new Kontenplan('Standart')
-    
-    
-    $scope.konten.k_speichern(new Konto(1000, "Kasse", 0))
-    $scope.konten.k_speichern(new Konto(1020, "Bankguthaben", 0))
-    $scope.konten.k_speichern(new Konto(1530, "Fahrzeuge", 0))
-    $scope.konten.k_speichern(new Konto(2000, "Kreditoren", 0))
-    $scope.konten.k_speichern(new Konto(2800, "Eigenkapital", 0))
-    
+    var standartKonten = [  new Konto(1000, "Kasse", 40),
+                            new Konto(1020, "Bankguthaben", 0),
+                            new Konto(1530, "Fahrzeuge", 0),
+                            new Konto(2000, "Kreditoren", 0),
+                            new Konto(2800, "Eigenkapital", 0)
+    ];
     
     //initialisieren des Speichers
     /*NUR PROVISORISCH*/
-    $scope.storage = $localStorage.$default( {journalBuchhaltung: []})
+    $scope.storage = $localStorage.$default( {journalBuchhaltung: [], kpStandart: standartKonten})
+    
     //initialisieren der hilfsvariablen
     $scope.buttonTxt = "Speichern"
+    $scope.kontenblatt = []
     var inBearb = -1        //speichert die nr der Buchung oder des kontos in bearbeitung, -1 wenn keine in bearbeitung
     
     //initialisieren des journals
     $scope.journal = new Journal('Test', $scope.storage)
-    $scope.journal.j_lesen();
+    $scope.journal.j_lesen()
     
+    //initialisieren der Konti
+    $scope.konten = new Kontenplan('Standart', $scope.storage)
+    $scope.konten.kp_lesen()
+   
     //reset der input-felder
     reset()
     
@@ -122,6 +124,28 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
             $scope.eingKontoname = obj.name
             $scope.eingEroeffnungssaldo = obj.eroeffnungssaldo
         }
+    };
+    
+    $scope.anzeigen = function(kontonr){
+        var k = $scope.konten.kVonKnr(kontonr)
+        
+        $scope.buchungen = $scope.journal.buchungenFuerKnr(kontonr)
+        
+        var eintrag = {b:null, t:"", s:k.eroeffnungssaldo}
+        $scope.kontenblatt = [eintrag]
+        
+        for(var i=0; i<$scope.buchungen.length; i++){
+            var buch = $scope.buchungen[i]
+            if(buch.kontoSoll == kontonr){
+                eintrag = {b:buch, t:"soll", s:($scope.kontenblatt[i].s + buch.betrag)}
+            }
+            if(buch.kontoHaben == kontonr){
+                eintrag = {b:buch, t:"haben", s:($scope.kontenblatt[i].s - buch.betrag)}
+            }
+            
+            $scope.kontenblatt.push(eintrag)
+        }
+        
     };
     
     /*

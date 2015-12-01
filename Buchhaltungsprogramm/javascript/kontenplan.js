@@ -1,5 +1,6 @@
-function Kontenplan(name){
+function Kontenplan(name, storage){
     
+    this.storage = storage
     this.name = name
     this.konten = []
     
@@ -8,12 +9,18 @@ function Kontenplan(name){
         this.konten.push(k)
         
         this.konten.sort(function(k1,k2){return k1.nr-k2.nr;})
+        
+        this.kp_speichern()
     };
     
     Kontenplan.prototype.k_ueberschreiben = function(k){
         var i = this.indexVonK(k)
         
         this.konten[i] = k
+        
+        this.konten.sort(function(k1,k2){return k1.nr-k2.nr;})
+        
+        this.kp_speichern()
     };
     
     Kontenplan.prototype.k_loeschen = function(k){
@@ -25,6 +32,8 @@ function Kontenplan(name){
         
         //wieder zusammenfügen der teilarrays zum neuen kontoarray
         this.konten = vor.concat(nach)
+        
+        this.kp_speichern()
     };
     
     
@@ -43,6 +52,18 @@ function Kontenplan(name){
     Kontenplan.prototype.aufwandskonten = function(){
         return this.konten.filter(function(k){return k.nr>=4000 && k.nr<5000;})
     };
+    
+    
+    Kontenplan.prototype.kp_speichern = function(){
+        /*NUR PROVISORISCH*/
+        this.storage.kpStandart = this.konten
+    };
+    
+    Kontenplan.prototype.kp_lesen = function(){
+        /*NUR PROVISORISCH*/
+        this.konten = this.storage.kpStandart
+    };
+    
     
     Kontenplan.prototype.kVonKnr = function(knr){
         for(var i = 0; i < this.konten.length; i++){
