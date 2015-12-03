@@ -19,6 +19,10 @@ kassenbuchApp.config(['$routeProvider',
                 templateUrl: 'partials/kontenblatt.html',
                 controller: 'buchhaltungCtrl'
             }).
+            when('/bilanzErfolg', {
+                templateUrl: 'partials/bilanz_erfolgsrechnung.html',
+                controller: 'buchhaltungCtrl'
+            }).
             otherwise({
                 redirectTo: '/journal',
                 controller: 'buchhaltungCtrl'

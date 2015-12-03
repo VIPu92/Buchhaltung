@@ -21,6 +21,8 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     $scope.buttonTxt = "Speichern"
     $scope.kontenblatt = []
     var inBearb = -1        //speichert die nr der Buchung oder des kontos in bearbeitung, -1 wenn keine in bearbeitung
+    $scope.bilanzGewinnVerlust = 0
+    $scope.erfolgGewinnVerlust = 0
     
     //initialisieren des journals
     $scope.journal = new Journal('Test', $scope.storage)
@@ -168,6 +170,9 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         }
     };
     
+    /*
+        Funktion zum anzeigen eines Kontenblatts
+    */
     $scope.kbAnzeigen = function(kontonr){
         var k = $scope.konten.kVonKnr(kontonr)
         
@@ -191,8 +196,18 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         $scope.kontenblatt.push({b: new Buchung(0, 'Saldo', 0, '', 0, 0, (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
     };
     
+    
+    $scope.bilanz = function(){
+        $scope.bilanzGewinnVerlust = $scope.konten.bilanz()
+    };
+    
+    $scope.erfolgsrechnung = function(){
+        $scope.erfolgGewinnVerlust = $scope.konten.erfolgsrechnung()
+    };
+    
+    
     /*
-        Funktion für das löschen der input-felder
+        Funktion für das reseten der input-felder
     */
     function reset(){
         $scope.eingDatum = "tt.mm.jjjj"

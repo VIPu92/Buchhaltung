@@ -63,6 +63,43 @@ function Kontenplan(name, storage){
     };
     
     
+    Kontenplan.prototype.bilanz = function(){
+        var akt = this.aktiva()
+        var pas = this.passiva()
+        
+        var totAkt = 0
+        var totPas = 0
+        
+        for(var i=0; i<akt.length; i++){
+            totAkt += akt[i].saldo
+        }
+        
+        for(var i=0; i<pas.length; i++){
+            totPas += pas[i].saldo              //saldon der Passiv konten sind oft negativ
+        }
+        
+        return Math.abs(totAkt) - Math.abs(totPas)
+    };
+    
+    Kontenplan.prototype.erfolgsrechnung = function(){
+        var ert = this.ertragskonten()
+        var auf = this.aufwandskonten()
+        
+        var totErt = 0
+        var totAuf = 0
+        
+        for(var i=0; i<ert.length; i++){
+            totErt += ert[i].saldo
+        }
+        
+        for(var i=0; i<auf.length; i++){
+            totAuf += auf[i].saldo              //saldon der aufwandskonten sind oft negativ
+        }
+        
+        return Math.abs(totErt) - Math.abs(totAuf)
+    };
+    
+    
     Kontenplan.prototype.kp_speichern = function(){
         /*NUR PROVISORISCH*/
         this.storage.kpStandart = this.konten

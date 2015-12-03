@@ -1,0 +1,70 @@
+<section>
+    <h2>Bilanz</h2>
+    <p>
+        <button ng-click="bilanz()">Bilanz rechnen</button>
+    </p>
+    <table>
+        <tr>
+            <th>Aktiven</th>
+            <th>Passiven</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr ng-repeat="k in konten.aktiva()">
+                        <td>{{k.nr + " " + k.name}}</td>
+                        <td>{{k.saldo}}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr ng-repeat="k in konten.passiva()">
+                        <td>{{k.nr + " " + k.name}}</td>
+                        <td>{{k.saldo}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>{{bilanzGewinnVerlust<0 ? "Verlust: "+(-bilanzGewinnVerlust) : ""}}</td>
+            <td>{{bilanzGewinnVerlust>=0 ? "Gewinn: " + bilanzGewinnVerlust : ""}}</td>
+        </tr>
+    </table>
+    
+</section>
+
+<section>
+    <h2>Erfolgsrechnung</h2>
+    <p>
+    <button ng-click="erfolgsrechnung()">Erfolgsrechnung rechnen</button>
+    </p>
+    <table>
+        <tr>
+            <th>Ertrag</th>
+            <th>Aufwand</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tr ng-repeat="k in konten.ertragskonten()">
+                        <td>{{k.nr + " " + k.name}}</td>
+                        <td>{{k.saldo}}</td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr ng-repeat="k in konten.aufwandskonten()">
+                        <td>{{k.nr + " " + k.name}}</td>
+                        <td>{{k.saldo}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>{{erfolgGewinnVerlust<0 ? "Verlust: "+(-erfolgGewinnVerlust) : ""}}</td>
+            <td>{{erfolgGewinnVerlust>=0 ? "Gewinn: " + erfolgGewinnVerlust : ""}}</td>
+        </tr>
+    </table>
+</section>
