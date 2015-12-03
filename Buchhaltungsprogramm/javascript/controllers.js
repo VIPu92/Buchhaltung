@@ -178,7 +178,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         
         $scope.buchungen = $scope.journal.buchungenFuerKnr(kontonr)
         
-        var eintrag = {b:null, t:"", s:k.eroeffnungssaldo}
+        var eintrag = {b:new Buchung(0, "", 0, "Eröffnung", 0, 0, k.eroeffnungssaldo), t:"soll", s:k.eroeffnungssaldo}
         $scope.kontenblatt = [eintrag]
         
         for(var i=0; i<$scope.buchungen.length; i++){
@@ -193,7 +193,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
             $scope.kontenblatt.push(eintrag)
         }
         var letzterSaldo = $scope.kontenblatt[$scope.kontenblatt.length-1].s
-        $scope.kontenblatt.push({b: new Buchung(0, 'Saldo', 0, '', 0, 0, (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
+        $scope.kontenblatt.push({b: new Buchung(0, '', 0, 'Saldo', 0, 0, (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
     };
     
     
