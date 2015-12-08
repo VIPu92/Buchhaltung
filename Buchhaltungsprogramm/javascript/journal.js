@@ -1,20 +1,36 @@
-function Journal(name, storage){
+function Journal(name, speicherort){
     this.name = name
-    this.storage = storage
+    this.speicherort = speicherort
     this.journal = []
-    this.autoBuchungsnr = this.journal.length
+    this.autoBuchungsnr = 0
+    
+    
+    Journal.prototype.j_speichern = function(){
+        /*NUR PROVISORISCH*/
+        this.speicherort[this.name] = this.journal
+    };
+    
+    Journal.prototype.j_lesen = function(){
+        /*NUR PROVISORISCH*/
+        var jTemp = this.speicherort[this.name]
+        
+        for(var i=0; i<jTemp.length; i++){
+            var b = jTemp[i]
+            this.journal.push(new Buchung(b.nr, b.datum, b.belegnr, b.buchungstxt, b.kontoSoll, b.kontoHaben, b.betrag))
+        }
+        
+        this.autoBuchungsnr = this.journal.length
+    };
+    
+    
+    
+    
     
     Journal.prototype.b_speichern = function(b){
         this.autoBuchungsnr++
         b.nr = this.autoBuchungsnr
         
         this.journal.push(b)
-        
-        this.j_speichern()
-    };
-    
-    Journal.prototype.b_ueberschreiben = function(b){
-        this.journal[b.nr-1] = b
         
         this.j_speichern()
     };
@@ -42,16 +58,7 @@ function Journal(name, storage){
     };
     
     
-    Journal.prototype.j_speichern = function(){
-        /*NUR PROVISORISCH*/
-        this.storage.journalBuchhaltung = this.journal
-    };
-    
-    Journal.prototype.j_lesen = function(){
-        /*NUR PROVISORISCH*/
-        this.journal = this.storage.journalBuchhaltung
-        this.autoBuchungsnr = this.journal.length
-    };
+   
     
     Journal.prototype.buchungFuerBuchungsnr = function(bnr){
         return this.journal[bnr-1]
@@ -61,3 +68,11 @@ function Journal(name, storage){
         return this.journal.filter(function(b){return b.kontoSoll == knr || b.kontoHaben == knr;})
     };
 }
+
+
+Journal.init = function(name, speicherort){
+    var jTemp = new Journal(name, speicherort)
+    jTemp.j_lesen()
+    
+    return jTemp
+};

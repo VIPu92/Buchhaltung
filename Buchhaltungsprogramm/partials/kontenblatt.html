@@ -2,7 +2,7 @@
 <fieldset>
     <legend>Konto auswählen</legend>
     <select ng-model="eingKontoAnz">
-            <option ng-repeat="k in konten.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
+            <option ng-repeat="k in buch.kontenplan.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
     </select>
     <button ng-click="kbAnzeigen(eingKontoAnz)">Anzeigen</button>
 </fieldset>

@@ -8,23 +8,18 @@ kassenbuchApp.config(['$routeProvider',
     function($routeProvider){
         $routeProvider.
             when('/journal', {
-                templateUrl: 'partials/journal.html',
-                controller: 'buchhaltungCtrl'
+                templateUrl: 'partials/journal.html'
             }).
             when('/konten', {
-                templateUrl: 'partials/kontenplan.html',
-                controller: 'buchhaltungCtrl'
+                templateUrl: 'partials/kontenplan.html'
             }).
             when('/kontenblatt', {
-                templateUrl: 'partials/kontenblatt.html',
-                controller: 'buchhaltungCtrl'
+                templateUrl: 'partials/kontenblatt.html'
             }).
             when('/bilanzErfolg', {
-                templateUrl: 'partials/bilanz_erfolgsrechnung.html',
-                controller: 'buchhaltungCtrl'
+                templateUrl: 'partials/bilanz_erfolgsrechnung.html'
             }).
             otherwise({
-                redirectTo: '/journal',
-                controller: 'buchhaltungCtrl'
+                redirectTo: '/journal'
             });
 }]);

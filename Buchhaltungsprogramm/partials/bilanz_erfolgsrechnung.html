@@ -11,7 +11,7 @@
         <tr>
             <td>
                 <table>
-                    <tr ng-repeat="k in konten.aktiva()">
+                    <tr ng-repeat="k in buch.kontenplan.aktiva()">
                         <td>{{k.nr + " " + k.name}}</td>
                         <td>{{k.saldo}}</td>
                     </tr>
@@ -19,7 +19,7 @@
             </td>
             <td>
                 <table>
-                    <tr ng-repeat="k in konten.passiva()">
+                    <tr ng-repeat="k in buch.kontenplan.passiva()">
                         <td>{{k.nr + " " + k.name}}</td>
                         <td>{{k.saldo}}</td>
                     </tr>
@@ -47,7 +47,7 @@
         <tr>
             <td>
                 <table>
-                    <tr ng-repeat="k in konten.ertragskonten()">
+                    <tr ng-repeat="k in buch.kontenplan.ertragskonten()">
                         <td>{{k.nr + " " + k.name}}</td>
                         <td>{{k.saldo}}</td>
                     </tr>
@@ -55,7 +55,7 @@
             </td>
             <td>
                 <table>
-                    <tr ng-repeat="k in konten.aufwandskonten()">
+                    <tr ng-repeat="k in buch.kontenplan.aufwandskonten()">
                         <td>{{k.nr + " " + k.name}}</td>
                         <td>{{k.saldo}}</td>
                     </tr>
@@ -63,8 +63,8 @@
             </td>
         </tr>
         <tr>
-            <td>{{erfolgGewinnVerlust<0 ? "Verlust: "+(-erfolgGewinnVerlust) : ""}}</td>
-            <td>{{erfolgGewinnVerlust>=0 ? "Gewinn: " + erfolgGewinnVerlust : ""}}</td>
+            <td>{{erfolgGewinnVerlust<0 ? "Ertrag: "+(-erfolgGewinnVerlust) : ""}}</td>
+            <td>{{erfolgGewinnVerlust>=0 ? "Aufwand: " + erfolgGewinnVerlust : ""}}</td>
         </tr>
     </table>
 </section>

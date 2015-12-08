@@ -2,18 +2,18 @@
 <fieldset>
     <legend>Buchung</legend>
     <p id="buchfeld">
-        Datum: <input type="text" ng-model="eingDatum">
-        Belegnr.: <input type="number" ng-model="eingBelegnr">
-        Buchungstext: <input type="text" ng-model="eingBuchungstxt"><br>
+        Datum: <input type="text" ng-model="input.datum">
+        Belegnr.: <input type="number" ng-model="input.belegnr">
+        Buchungstext: <input type="text" ng-model="input.buchungstxt"><br>
         Konto Soll: 
-        <select ng-model="eingKontoSoll">
-            <option ng-repeat="k in konten.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
+        <select ng-model="input.kontoSoll">
+            <option ng-repeat="k in buch.kontenplan.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
         </select>
         Konto Haben: 
-        <select ng-model="eingKontoHaben">
-            <option ng-repeat="k in konten.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
+        <select ng-model="input.kontoHaben">
+            <option ng-repeat="k in buch.kontenplan.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
         </select><br>
-        Betrag CHF: <input type="number" ng-model="eingBetrag">
+        Betrag CHF: <input type="number" ng-model="input.betrag">
         <button ng-click="speichern('buchung')">{{buttonTxt}}</button>
     </p>
 </fieldset>
@@ -28,7 +28,7 @@
             <th>Konto Haben</th>
             <th>Betrag</th>
         </tr>
-        <tr ng-repeat="b in journal.journal">
+        <tr ng-repeat="b in buch.journal.journal">
             <td class="centerAlign">{{b.nr}}</td>
             <td>{{b.datum}}</td>
             <td class="centerAlign">{{b.belegnr}}</td>
@@ -36,9 +36,9 @@
             <td class="rightAlign">{{b.kontoSoll}}</td>
             <td class="rightAlign">{{b.kontoHaben}}</td>
             <td class="rightAlign">{{b.betrag}}</td>
-            <td><button ng-click="loeschen(b, 'buchung')">Löschen</button></td>
-            <td><button ng-click="bearbeiten(b, 'buchung')">Bearbeiten</button></td>
-            <td><button ng-click="kopieren(b, 'buchung')">Kopieren</button></td>
+            <td><button ng-click="loeschen('buchung', b)">Löschen</button></td>
+            <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
+            <td><button ng-click="kopieren(b)">Kopieren</button></td>
         </tr>
     </table>
 </section>

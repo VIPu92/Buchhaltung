@@ -1,13 +1,33 @@
-function Kontenplan(name, storage){
+function Kontenplan(name, speicherort){
     
-    this.storage = storage
+    this.speicherort = speicherort
     this.name = name
     this.konten = []
     
     
-    Kontenplan.prototype.aktuSaldo = function(knr, betrag){
-        this.kVonKnr(knr).saldo += betrag
+    
+    Kontenplan.prototype.kp_speichern = function(){
+        /*NUR PROVISORISCH*/
+        var kontenLeicht = []
+        for(var i=0;i<this.konten.length; i++){
+            kontenLeicht.push(this.konten[i].speicherKonto())
+        }
+        this.speicherort[this.name] = kontenLeicht
     };
+    
+    Kontenplan.prototype.kp_lesen = function(){
+        /*NUR PROVISORISCH*/
+        var kpTemp = this.speicherort[this.name]
+        
+        for(var i=0;i<kpTemp.length; i++){
+            var k = kpTemp[i]
+            var newK = new Konto(k.nr, k.name, k.eroeffnungssaldo)
+            newK.eroeffnung()
+            this.konten.push(newK)
+        }
+    };
+    
+    
     
     Kontenplan.prototype.saldoVonKnr = function(knr){
         return this.kVonKnr(knr).saldo
@@ -75,10 +95,10 @@ function Kontenplan(name, storage){
         }
         
         for(var i=0; i<pas.length; i++){
-            totPas += pas[i].saldo              //saldon der Passiv konten sind oft negativ
+            totPas += pas[i].saldo             
         }
         
-        return Math.abs(totAkt) - Math.abs(totPas)
+        return totAkt + totPas
     };
     
     Kontenplan.prototype.erfolgsrechnung = function(){
@@ -93,21 +113,10 @@ function Kontenplan(name, storage){
         }
         
         for(var i=0; i<auf.length; i++){
-            totAuf += auf[i].saldo              //saldon der aufwandskonten sind oft negativ
+            totAuf += auf[i].saldo          
         }
         
-        return Math.abs(totErt) - Math.abs(totAuf)
-    };
-    
-    
-    Kontenplan.prototype.kp_speichern = function(){
-        /*NUR PROVISORISCH*/
-        this.storage.kpStandart = this.konten
-    };
-    
-    Kontenplan.prototype.kp_lesen = function(){
-        /*NUR PROVISORISCH*/
-        this.konten = this.storage.kpStandart
+        return totErt + totAuf
     };
     
     
@@ -128,3 +137,10 @@ function Kontenplan(name, storage){
     };
 
 }
+
+Kontenplan.init = function(name, speicherort){
+    var kpTemp = new Kontenplan(name, speicherort)
+    kpTemp.kp_lesen()
+    
+    return kpTemp
+};
