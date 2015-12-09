@@ -89,6 +89,8 @@ function Buchhaltung(name, speicherort){
     };
 }
 
+
+
 /*Funktion zum Erstellen und Initialisieren einer Buchhaltung*/
 Buchhaltung.init = function(name, speicherort){
     /*Speicher lesen, Buchungen zu Konten hinzufügen, Salden errechnen*/

@@ -79,11 +79,13 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         Funktion zum anzeigen eines Kontenblatts
     */
     $scope.kbAnzeigen = function(kontonr){
+        
         var k = $scope.buch.kontenplan.kVonKnr(kontonr)
         
-        $scope.kontenblatt = k.buchungen
+        $scope.kontenblatt = k.buchungen.slice(0) //klonen des buchungen arrays
         
         var letzterSaldo = $scope.kontenblatt[$scope.kontenblatt.length-1].s
+        
         $scope.kontenblatt.push({b: new Buchung(0, '', '', 'Saldo', '', '', (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
     };
     

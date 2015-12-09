@@ -66,6 +66,7 @@ function Kontenplan(name, speicherort){
     };
     
     
+    /* Funktionen die die Filterung nach Schweizer Kontenramen KMU übernehmen. */
     Kontenplan.prototype.aktiva = function(){
         return this.konten.filter(function(k){return k.nr>=1000 && k.nr<2000;})
     };
@@ -75,11 +76,15 @@ function Kontenplan(name, speicherort){
     };
     
     Kontenplan.prototype.ertragskonten = function(){
-        return this.konten.filter(function(k){return k.nr>=3000 && k.nr<4000;})
+        return this.konten.filter(function(k){return ((k.nr>=3000 && k.nr<4000) || (k.nr>=6950 && k.nr<7010) || (k.nr>=7500 && k.nr<7510) || (k.nr>=8100 && k.nr<8200) || (k.nr>=8510 && k.nr<8600));})
     };
         
     Kontenplan.prototype.aufwandskonten = function(){
-        return this.konten.filter(function(k){return k.nr>=4000 && k.nr<6000;})
+        return this.konten.filter(function(k){return ((k.nr>=4000 && k.nr<6950) || (k.nr>=7010 && k.nr<7020) || (k.nr>=7510 && k.nr<7520) || (k.nr>=8000 && k.nr<8100) || (k.nr>=8500 && k.nr<8510) || (k.nr>=8900 && k.nr<9000));})
+    };
+    
+    Kontenplan.prototype.abschlusskonten = function(){
+        return this.konten.filter(function(k){return k.nr>=9000 && k.nr<=9999})
     };
     
     
@@ -137,6 +142,8 @@ function Kontenplan(name, speicherort){
     };
 
 }
+
+
 
 Kontenplan.init = function(name, speicherort){
     var kpTemp = new Kontenplan(name, speicherort)
