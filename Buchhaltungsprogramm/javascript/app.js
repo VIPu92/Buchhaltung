@@ -1,6 +1,8 @@
 var kassenbuchApp = angular.module('buchhaltungApp', [
     'ngRoute',
-    'controllers'
+    'controllers',
+    'ngSanitize',
+    'ngCsv'
 ]);
 
 

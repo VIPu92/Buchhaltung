@@ -99,6 +99,11 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     };
     
     
+    $scope.csvExport = function(){
+        return $scope.buch.journal.journal.slice(0)
+    };
+    
+    
     /*
         Funktion für das reseten der input-felder
     */
