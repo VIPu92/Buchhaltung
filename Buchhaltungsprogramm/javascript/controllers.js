@@ -86,7 +86,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         
         var letzterSaldo = $scope.kontenblatt[$scope.kontenblatt.length-1].s
         
-        $scope.kontenblatt.push({b: new Buchung(0, '', '', 'Saldo', '', '', (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:letzterSaldo})
+        $scope.kontenblatt.push({b: new Buchung(0, '', '', 'Saldo', '', '', (letzterSaldo<0?-letzterSaldo:letzterSaldo)), t:(letzterSaldo<0?"soll":"haben"), s:''})
     };
     
     
@@ -99,8 +99,22 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     };
     
     
-    $scope.csvExport = function(){
-        return $scope.buch.journal.journal.slice(0)
+    $scope.csvExport = function(id){
+        switch(id){
+            case 'journal':
+                return $scope.buch.journal.journal.slice(0)
+            case 'kontenplan':
+                return $scope.buch.kontenplan.arrayFuerExport()
+            case 'kontenblatt':
+                var b = $scope.buch.kontenplan.kVonKnr($scope.input.kontoAnz).buchungen
+                var array = []
+                for(var i=0; i<b.length; i++){
+                    var e = b[i]
+                    array.push({datum:e.b.datum, text:e.b.buchungstxt, soll:(e.t=='soll'?e.b.betrag:''), haben:(e.t=='haben'?e.b.betrag:''), saldo:e.s})
+                }
+                return array
+            case 'bilanz':
+        }
     };
     
     
@@ -118,6 +132,8 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         $scope.input.nr = ""
         $scope.input.name = ""
         $scope.input.eroeffnungssaldo = 0
+        
+        $scope.input.kontoAnz = 0
         
         $scope.buttonTxt = "Speichern"
         inBearb = -1

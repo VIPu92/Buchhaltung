@@ -65,6 +65,14 @@ function Kontenplan(name, speicherort){
         this.kp_speichern()
     };
     
+    Kontenplan.prototype.arrayFuerExport = function(){
+        var array = []
+        for(var i=0; i<this.konten.length; i++){
+            array.push(this.konten[i].objFuerExport())
+        }
+        return array
+    };
+    
     
     /* Funktionen die die Filterung nach Schweizer Kontenramen KMU übernehmen. */
     Kontenplan.prototype.aktiva = function(){

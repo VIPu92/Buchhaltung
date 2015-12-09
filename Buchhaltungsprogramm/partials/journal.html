@@ -19,7 +19,9 @@
 </fieldset>
 <fieldset>
     <legend>Export</legend>
-    <button ng-csv='csvExport()' filename='{{buch.journal.name}}.csv'>csv Export</button></fieldset>
+    <button ng-csv='csvExport("journal")' filename='{{buch.journal.name}}.csv'
+            csv-header='["Buchungsnummer","Datum","Belegnummer","Buchungstext","Konto Soll","Konto Haben","Betrag"]'>csv Export</button>
+</fieldset>
 <section id="tab">
     <table>
         <tr>

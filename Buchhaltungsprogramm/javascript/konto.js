@@ -17,6 +17,10 @@ function Konto(nr, name, startguthaben) {
         return {nr: this.nr, name: this.name, eroeffnungssaldo: this.eroeffnungssaldo}
     };
     
+    Konto.prototype.objFuerExport = function(){
+        return {nr: this.nr, name: this.name, eroeffnungssaldo: this.eroeffnungssaldo, saldo: this.saldo}
+    };
+    
     Konto.prototype.ueberschreiben = function(input){
         this.nr = input.nr
         this.name = input.name

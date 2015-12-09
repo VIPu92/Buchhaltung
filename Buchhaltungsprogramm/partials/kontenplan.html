@@ -8,6 +8,11 @@
         Eröffnungssaldo: <input type="number" ng-model="input.eroeffnungssaldo"><br>
         <button ng-click="speichern('konto')">{{buttonTxt}}</button>
     </fieldset>
+    
+    <fieldset>
+    <legend>Export</legend>
+    <button ng-csv='csvExport("kontenplan")' filename='{{buch.kontenplan.name}}.csv' csv-header='["Kontonummer","Kontoname","Eröffnungssaldo","Saldo"]'>csv Export</button>
+    </fieldset>
 
     <div>
         <h3>Aktiven</h3>
