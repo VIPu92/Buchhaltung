@@ -54,23 +54,20 @@ function Buchhaltung(name, speicherort){
             
             /* EV. VERBUCHEN DES BETRAGS IN ENTSP. KONTI*/
             /* EV. LÖSCHEN DER BUCHUNG IN ENTSP. KONTI*/
-            if(b.kontoSoll != input.kontoSoll){
+            if(b.kontoSoll !== input.kontoSoll){
                 this.kontenplan.kVonKnr(b.kontoSoll).b_entf(b)
                 this.kontenplan.kVonKnr(input.kontoSoll).b_hinzu(b)
             }
             
-            if(b.kontoHaben != input.kontoHaben){
+            if(b.kontoHaben !== input.kontoHaben){
                 this.kontenplan.kVonKnr(b.kontoHaben).b_entf(b)
                 this.kontenplan.kVonKnr(input.kontoHaben).b_hinzu(b)
             }
             
-            var dif = b.betrag - input.betrag
             b.ueberschreiben(input)
             
-            if(dif!==0){
-                this.kontenplan.kVonKnr(b.kontoSoll).aktu()
-                this.kontenplan.kVonKnr(b.kontoHaben).aktu()
-            }
+            this.kontenplan.kVonKnr(b.kontoSoll).aktu()
+            this.kontenplan.kVonKnr(b.kontoHaben).aktu()
             
             this.speichern(this.speicherort)
             

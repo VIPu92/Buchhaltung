@@ -2,7 +2,7 @@ var controllers = angular.module('controllers', ['ngStorage']);
 
 controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
-    var standartKonten = [  new Konto(1000, "Kasse", 40),
+    /*var standartKonten = [  new Konto(1000, "Kasse", 40),
                             new Konto(1020, "Bankguthaben", 0),
                             new Konto(1530, "Fahrzeuge", 0),
                             new Konto(2000, "Kreditoren", 0),
@@ -11,11 +11,11 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
                             new Konto(3400, "Dienstleistungserlöse", 0),
                             new Konto(4400, "Aufwand für Dienstleistungen", 0),
                             new Konto(5900, "Leistungen Dritter", 0)
-    ];
+    ];*/
     
     //initialisieren des Speichers
     /*NUR PROVISORISCH*/
-    var storage = $localStorage.$default( {journal_test: [], kontenplan_test: standartKonten})
+    var storage = $localStorage.$default( {journal_test: [], kontenplan_test: []/*standartKonten*/})
     
     //initialisieren der Buchhaltung
     $scope.buch = Buchhaltung.init('test', storage)
@@ -27,6 +27,17 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     var inBearb = -1        //speichert die nr der Buchung oder des kontos in bearbeitung, -1 wenn keine in bearbeitung
     $scope.bilanzGewinnVerlust = 0
     $scope.erfolgGewinnVerlust = 0
+    
+    $scope.csv = {
+        content: null,
+        header: true,
+        headerVisible: true,
+        separator: ',',
+        separatorVisible: true,
+        encoding: 'ISO-8859-1',
+        encodingVisible: true,
+        result: null
+    };
    
     //reset der input-felder
     reset()
@@ -137,6 +148,29 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
         }
     };
     
+    $scope.csvImport = function(id){
+        switch(id){
+            case 'journal':
+                var jTemp = $scope.csv.result
+                var jLen = $scope.csv.result.length
+                
+                for(var i=0; i<jLen; i++){
+                    var tempIn = {datum: jTemp[i].Datum, belegnr:jTemp[i].Belegnummer, buchungstxt:jTemp[i].Buchungstext, kontoSoll:jTemp[i].KontoSoll, kontoHaben:jTemp[i].KontoHaben, betrag:parseInt(jTemp[i].Betrag)}
+                    $scope.buch.hinzuVonInput('buchung', tempIn)
+                }
+                break
+            case 'kontenplan':
+                var kpTemp = $scope.csv.result
+                var kpLen = $scope.csv.result.length
+                
+                for(var i=0; i<kpLen; i++){
+                    var tempIn = {nr: kpTemp[i].Kontonummer, name:kpTemp[i].Kontoname, eroeffnungssaldo:parseInt(kpTemp[i].Eröffnungssaldo)}
+                    $scope.buch.hinzuVonInput('konto', tempIn)
+                }
+                
+            break
+        }
+    };
     
     /*
         Funktion für das reseten der input-felder

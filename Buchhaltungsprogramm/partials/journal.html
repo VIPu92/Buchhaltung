@@ -17,6 +17,17 @@
         <button ng-click="speichern('buchung')">{{buttonTxt}}</button>
     </p>
 </fieldset>
+
+<fieldset>
+    <legend>csv Import</legend>
+    <ng-csv-import content="csv.content"
+                                header="csv.header" 
+                                separator="csv.separator"
+                                result="csv.result"
+                                accept="csv.accept"></ng-csv-import><br>
+    <button ng-click="csvImport('journal')">csv Import</button>
+</fieldset>
+
 <fieldset>
     <legend>Export</legend>
     <button ng-csv='csvExport("journal")' filename='{{buch.journal.name}}.csv'

@@ -28,5 +28,5 @@ function Buchung(buchungsnr, datum, belegnr, buchungstxt, kontoSoll, kontoHaben,
 
 
 Buchung.newVonInput = function(input){
-    return new Buchung(0, input.datum, input.buchungstxt, input.belegnr, input.kontoSoll, input.kontoHaben, input.betrag)
+    return new Buchung(0, input.datum, input.belegnr, input.buchungstxt, input.kontoSoll, input.kontoHaben, input.betrag)
 };
