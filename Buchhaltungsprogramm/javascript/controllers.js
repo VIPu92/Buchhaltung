@@ -114,6 +114,26 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
                 }
                 return array
             case 'bilanz':
+                var a = $scope.buch.kontenplan.aktiva()
+                var p = $scope.buch.kontenplan.passiva()
+                var max = (a.length<p.length?p.length:a.length)
+                var array = []
+                for(var i=0;i<max;i++){
+                    array.push([(i<a.length?a[i].name + ': ' + a[i].saldo:''), (i<p.length?p[i].name + ': ' + p[i].saldo:'')])
+                }
+                array.push([($scope.bilanzGewinnVerlust<0 ? "Verlust: "+(-$scope.bilanzGewinnVerlust) : ""), ($scope.bilanzGewinnVerlust>=0 ? "Gewinn: " + $scope.bilanzGewinnVerlust : "")])
+                return array
+            case 'erfolg':
+                var e = $scope.buch.kontenplan.ertragskonten()
+                var a = $scope.buch.kontenplan.aufwandskonten()
+                var max = (e.length<a.length?a.length:e.length)
+                var array = []
+                for(var i=0;i<max;i++){
+                    array.push([(i<e.length?e[i].name + ': ' + e[i].saldo:''), (i<a.length?a[i].name + ': ' + a[i].saldo:'')])
+                }
+                array.push([($scope.erfolgGewinnVerlust<0 ? "Verlust: "+(-$scope.erfolgGewinnVerlust) : ""), ($scope.erfolgGewinnVerlust>=0 ? "Gewinn: " + $scope.erfolgGewinnVerlust : "")])
+                return array
+                
         }
     };
     

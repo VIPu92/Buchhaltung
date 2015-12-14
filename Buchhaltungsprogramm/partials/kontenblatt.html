@@ -29,5 +29,4 @@
     <button ng-csv='csvExport("kontenblatt")' 
             filename='{{buch.kontenplan.kVonKnr(input.kontoAnz).nr + "_" + buch.kontenplan.kVonKnr(input.kontoAnz).name}}.csv'
             csv-header='["Datum","Buchungstext","Soll","Haben","Saldo"]'>csv Export</button>
-    {{buch.kontenplan.kVonKnr(eingKontoAnz).buchungen}}
 </fieldset>

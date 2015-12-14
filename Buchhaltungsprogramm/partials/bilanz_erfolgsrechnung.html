@@ -32,6 +32,13 @@
         </tr>
     </table>
     
+    <fieldset>
+    <legend>Export</legend>
+    <button ng-csv='csvExport("bilanz")' 
+            filename='{{"bilanz_" + buch.name}}.csv'
+            csv-header='["Aktiva","Passiva"]'>csv Export</button>
+    </fieldset>
+    
 </section>
 
 <section>
@@ -67,4 +74,11 @@
             <td>{{erfolgGewinnVerlust>=0 ? "Aufwand: " + erfolgGewinnVerlust : ""}}</td>
         </tr>
     </table>
+    
+    <fieldset>
+    <legend>Export</legend>
+    <button ng-csv='csvExport("erfolg")' 
+            filename='{{"erfolgsrechung_" + buch.name}}.csv'
+            csv-header='["Ertrag","Aufwand"]'>csv Export</button>
+    </fieldset>
 </section>
