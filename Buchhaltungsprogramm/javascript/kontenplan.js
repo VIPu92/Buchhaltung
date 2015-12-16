@@ -19,6 +19,8 @@ function Kontenplan(name, speicherort){
         /*NUR PROVISORISCH*/
         var kpTemp = this.speicherort[this.name]
         
+        if(kpTemp===undefined) kpTemp = []
+        
         for(var i=0;i<kpTemp.length; i++){
             var k = kpTemp[i]
             var newK = new Konto(k.nr, k.name, k.eroeffnungssaldo)

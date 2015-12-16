@@ -15,10 +15,11 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
     
     //initialisieren des Speichers
     /*NUR PROVISORISCH*/
-    var storage = $localStorage.$default( {journal_test: [], kontenplan_test: []/*standartKonten*/})
+    //var storage = $localStorage.$default( {journal_test: [], kontenplan_test: []/*standartKonten*/})
+    var storage = $localStorage.$default({buchhaltungen: ['test']})
     
     //initialisieren der Buchhaltung
-    $scope.buch = Buchhaltung.init('test', storage)
+    init()
     
     //initialisieren der hilfsvariablen
     $scope.buttonTxt = "Speichern"
@@ -171,6 +172,29 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
             break
         }
     };
+    
+    $scope.neueBuchhaltung = function(){
+        var neueB = Buchhaltung.init($scope.neueBName,storage)
+        $scope.alleB.push(neueB.name)
+        $scope.aktB = neueB.name
+        $scope.buch = neueB
+        storage.buchhaltungen = $scope.alleB
+    }
+    
+    $scope.anzeigen = function(){
+        $scope.buch = Buchhaltung.init($scope.aktB, storage)
+    }
+    
+    function init(){
+        $scope.alleB = storage.buchhaltungen
+        if($scope.alleB.length !== 0){
+            $scope.aktB = $scope.alleB[0]
+            $scope.buch = Buchhaltung.init($scope.aktB, storage)
+        } else {
+            $scope.aktB = ''
+            $scope.buch = null
+        }
+    }
     
     /*
         Funktion für das reseten der input-felder

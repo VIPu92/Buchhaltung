@@ -14,6 +14,8 @@ function Journal(name, speicherort){
         /*NUR PROVISORISCH*/
         var jTemp = this.speicherort[this.name]
         
+        if(jTemp === undefined) jTemp = []
+        
         for(var i=0; i<jTemp.length; i++){
             var b = jTemp[i]
             this.journal.push(new Buchung(b.nr, b.datum, b.belegnr, b.buchungstxt, b.kontoSoll, b.kontoHaben, b.betrag))
