@@ -156,7 +156,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
                 var jLen = $scope.csv.result.length
                 
                 for(var i=0; i<jLen; i++){
-                    var tempIn = {datum: jTemp[i].Datum, belegnr:jTemp[i].Belegnummer, buchungstxt:jTemp[i].Buchungstext, kontoSoll:jTemp[i].KontoSoll, kontoHaben:jTemp[i].KontoHaben, betrag:parseInt(jTemp[i].Betrag)}
+                    var tempIn = {datum: jTemp[i].Datum, belegnr:jTemp[i].Belegnummer, buchungstxt:jTemp[i].Buchungstext, kontoSoll:jTemp[i].KontoSoll, kontoHaben:jTemp[i].KontoHaben, betrag:parseFloat(jTemp[i].Betrag)}
                     $scope.buch.hinzuVonInput('buchung', tempIn)
                 }
                 break
@@ -165,7 +165,7 @@ controllers.controller('buchhaltungCtrl', function ($scope, $localStorage) {
                 var kpLen = $scope.csv.result.length
                 
                 for(var i=0; i<kpLen; i++){
-                    var tempIn = {nr: kpTemp[i].Kontonummer, name:kpTemp[i].Kontoname, eroeffnungssaldo:parseInt(kpTemp[i].Eröffnungssaldo)}
+                    var tempIn = {nr: kpTemp[i].Kontonummer, name:kpTemp[i].Kontoname, eroeffnungssaldo:parseFloat(kpTemp[i].Eröffnungssaldo)}
                     $scope.buch.hinzuVonInput('konto', tempIn)
                 }
                 
