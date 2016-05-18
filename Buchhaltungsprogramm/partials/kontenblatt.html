@@ -10,16 +10,18 @@
 <section>
     <table>
         <tr>
-            <th></th>
+            <th>Datum</th>
+            <th>Buchungstext</th>
             <th>Soll</th>
             <th>Haben</th>
             <th>Saldo</th>
         </tr>
         <tr ng-repeat="e in kontenblatt">
-            <td>{{e.b.nr==0?e.b.buchungstxt:(e.b.datum+": "+e.b.buchungstxt)}}</td>
-            <td>{{e.t=="soll"?(e.b.betrag | currency: "" : 2):''}}</td>
-            <td>{{e.t=="haben"?(e.b.betrag | currency: "" : 2):''}}</td>
-            <td>{{e.b.buchungstxt=="Saldo"?"":(e.s | currency: "" : 2)}}</th>
+            <td>{{e.b.nr==0?"":e.b.datum}}</td>
+            <td>{{e.b.buchungstxt}}</td>
+            <td class="rightAlign">{{e.t=="soll"?(e.b.betrag | currency: "" : 2):''}}</td>
+            <td class="rightAlign">{{e.t=="haben"?(e.b.betrag | currency: "" : 2):''}}</td>
+            <td class="rightAlign">{{e.b.buchungstxt=="Saldo"?"":(e.s | currency: "" : 2)}}</th>
         </tr>
     </table>
 </section>

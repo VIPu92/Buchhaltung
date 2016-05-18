@@ -13,7 +13,7 @@
                 <table>
                     <tr ng-repeat="k in buch.kontenplan.aktiva()">
                         <td>{{k.nr + " " + k.name}}</td>
-                        <td>{{k.saldo | currency: "" : 2}}</td>
+                        <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                     </tr>
                 </table>
             </td>
@@ -21,14 +21,14 @@
                 <table>
                     <tr ng-repeat="k in buch.kontenplan.passiva()">
                         <td>{{k.nr + " " + k.name}}</td>
-                        <td>{{k.saldo | currency: "" : 2}}</td>
+                        <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>{{bilanzGewinnVerlust<0 ? "Verlust: "+(-bilanzGewinnVerlust) : ""}}</td>
-            <td>{{bilanzGewinnVerlust>=0 ? "Gewinn: " + (bilanzGewinnVerlust  | currency: "" : 2) : ""}}</td>
+            <td class="rightAlign">{{bilanzGewinnVerlust<0 ? "Verlust: "+(-bilanzGewinnVerlust) : ""}}</td>
+            <td class="rightAlign">{{bilanzGewinnVerlust>=0 ? "Gewinn: " + (bilanzGewinnVerlust  | currency: "" : 2) : ""}}</td>
         </tr>
     </table>
     
@@ -56,7 +56,7 @@
                 <table>
                     <tr ng-repeat="k in buch.kontenplan.ertragskonten()">
                         <td>{{k.nr + " " + k.name}}</td>
-                        <td>{{k.saldo | currency: "" : 2}}</td>
+                        <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                     </tr>
                 </table>
             </td>
@@ -64,14 +64,14 @@
                 <table>
                     <tr ng-repeat="k in buch.kontenplan.aufwandskonten()">
                         <td>{{k.nr + " " + k.name}}</td>
-                        <td>{{k.saldo | currency: "" : 2}}</td>
+                        <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>{{erfolgGewinnVerlust<0 ? "Ertrag: "+(-erfolgGewinnVerlust) : ""}}</td>
-            <td>{{erfolgGewinnVerlust>=0 ? "Aufwand: " + (erfolgGewinnVerlust | currency: "" : 2) : ""}}</td>
+            <td class="rightAlign">{{erfolgGewinnVerlust<0 ? "Ertrag: "+(-erfolgGewinnVerlust) : ""}}</td>
+            <td class="rightAlign">{{erfolgGewinnVerlust>=0 ? "Aufwand: " + (erfolgGewinnVerlust | currency: "" : 2) : ""}}</td>
         </tr>
     </table>
     

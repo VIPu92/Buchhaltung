@@ -11,7 +11,7 @@ function Buchung(buchungsnr, datum, belegnr, buchungstxt, kontoSoll, kontoHaben,
     
     
     Buchung.prototype.objFuerInput = function(){
-        return {nr: this.nr, datum: this.datum, buchungstxt: this.buchungstxt, belegnr: this.belegnr, kontoSoll: this.kontoSoll, kontoHaben: this.kontoHaben, betrag: this.betrag}
+        return {nr: this.nr, datum: this.datum, buchungstxt: this.buchungstxt, belegnr: Number(this.belegnr), kontoSoll: this.kontoSoll, kontoHaben: this.kontoHaben, betrag: this.betrag}
     };
     
     Buchung.prototype.ueberschreiben = function(input){

@@ -14,7 +14,7 @@ function Konto(nr, name, startguthaben) {
     
     
     Konto.prototype.objFuerInput = function(){
-        return {nr: this.nr, name: this.name, eroeffnungssaldo: this.eroeffnungssaldo}
+        return {nr: Number(this.nr), name: this.name, eroeffnungssaldo: this.eroeffnungssaldo}
     };
     
     Konto.prototype.objFuerExport = function(){
