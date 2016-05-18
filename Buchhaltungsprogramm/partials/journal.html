@@ -51,7 +51,7 @@
             <td>{{b.buchungstxt}}</td>
             <td class="rightAlign">{{b.kontoSoll}}</td>
             <td class="rightAlign">{{b.kontoHaben}}</td>
-            <td class="rightAlign">{{b.betrag}}</td>
+            <td class="rightAlign">{{b.betrag | currency: "" : 2}}</td>
             <td><button ng-click="loeschen('buchung', b)">Löschen</button></td>
             <td><button ng-click="bearbeiten(b)">Bearbeiten</button></td>
             <td><button ng-click="kopieren(b)">Kopieren</button></td>

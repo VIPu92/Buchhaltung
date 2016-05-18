@@ -36,8 +36,8 @@
             <tr ng-repeat="k in buch.kontenplan.aktiva()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
-                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
-                <td class="rightAlign">{{k.saldo}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo | currency: "" : 2}}</td>
+                <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                 <td><button ng-click="loeschen('konto', k)">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k)">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k)">Kopieren</button></td>
@@ -57,8 +57,8 @@
             <tr ng-repeat="k in buch.kontenplan.passiva()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
-                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
-                <td class="rightAlign">{{k.saldo}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo | currency: "" : 2}}</td>
+                <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                 <td><button ng-click="loeschen('konto', k)">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k)">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k)">Kopieren</button></td>
@@ -78,8 +78,8 @@
             <tr ng-repeat="k in buch.kontenplan.ertragskonten()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
-                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
-                <td class="rightAlign">{{k.saldo}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo | currency: "" : 2}}</td>
+                <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                 <td><button ng-click="loeschen('konto', k)">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k)">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k)">Kopieren</button></td>
@@ -99,8 +99,8 @@
             <tr ng-repeat="k in buch.kontenplan.aufwandskonten()">
                 <td class="centerAlign">{{k.nr}}</td>
                 <td>{{k.name}}</td>
-                <td class="rightAlign">{{k.eroeffnungssaldo}}</td>
-                <td class="rightAlign">{{k.saldo}}</td>
+                <td class="rightAlign">{{k.eroeffnungssaldo | currency: "" : 2}}</td>
+                <td class="rightAlign">{{k.saldo | currency: "" : 2}}</td>
                 <td><button ng-click="loeschen('konto', k)">Löschen</button></td>
                 <td><button ng-click="bearbeiten(k)">Bearbeiten</button></td>
                 <td><button ng-click="kopieren(k)">Kopieren</button></td>

@@ -17,9 +17,9 @@
         </tr>
         <tr ng-repeat="e in kontenblatt">
             <td>{{e.b.nr==0?e.b.buchungstxt:(e.b.datum+": "+e.b.buchungstxt)}}</td>
-            <td>{{e.t=="soll"?e.b.betrag:''}}</td>
-            <td>{{e.t=="haben"?e.b.betrag:''}}</td>
-            <td>{{e.b.buchungstxt=="Saldo"?"":e.s}}</th>
+            <td>{{e.t=="soll"?(e.b.betrag | currency: "" : 2):''}}</td>
+            <td>{{e.t=="haben"?(e.b.betrag | currency: "" : 2):''}}</td>
+            <td>{{e.b.buchungstxt=="Saldo"?"":(e.s | currency: "" : 2)}}</th>
         </tr>
     </table>
 </section>
