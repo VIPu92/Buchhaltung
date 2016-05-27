@@ -14,18 +14,19 @@
             <option ng-repeat="k in buch.kontenplan.konten" value="{{k.nr}}">{{k.nr}}, {{k.name}}</option>
         </select><br>
         Betrag CHF: <input type="number" ng-model="input.betrag">
-        <button ng-click="speichern('buchung')">{{buttonTxt}}</button>
+        <button ng-click="speichern('buchung')">{{buttonTxt}}</button> 
     </p>
 </fieldset>
 
 <fieldset>
     <legend>csv Import</legend>
-    <ng-csv-import content="csv.content"
+    1. Trennzeichen: <select ng-model="csv.separator"><option>{{','}}</option><option>{{';'}}</option></select><br>
+    2. <ng-csv-import content="csv.content"
                                 header="csv.header" 
                                 separator="csv.separator"
                                 result="csv.result"
                                 accept="csv.accept"></ng-csv-import><br>
-    <button ng-click="csvImport('journal')">csv Import</button>
+    <button ng-click="csvImport('journal')">csv Import</button> 
 </fieldset>
 
 <fieldset>
